@@ -3,72 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111a20">
-  <meta name="description" content="Saurek's Closet is an appearance wardrobe addon for World of Warcraft 1.12.1. Preview items, customize your character, and save looks.">
-  <meta property="og:title" content="Saurek's Closet — An Azeroth wardrobe">
-  <meta property="og:description" content="Shape your look in World of Warcraft 1.12.1.">
+  <meta name="theme-color" content="#10191f">
+  <meta name="description" content="Saurek's Closet is an appearance wardrobe for World of Warcraft 1.12.1. Browse, preview, and save your look.">
+  <meta property="og:title" content="Saurek's Closet — Your legend. Your look.">
+  <meta property="og:description" content="An appearance wardrobe for World of Warcraft 1.12.1.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://mu-arch.github.io/saureks-closet-website/assets/atelier-hero.webp">
-  <title>Saurek's Closet — An Azeroth wardrobe</title>
+  <meta property="og:image" content="https://mu-arch.github.io/saureks-closet-website/assets/appearance-browser.png">
+  <title>Saurek's Closet — Your legend. Your look.</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=fantasy-3">
-  <script src="script.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=stack-2">
+  <script src="script.js?v=stack-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="wrap header-inner">
+  <div class="page" id="top">
+    <header class="site-header wrap">
       <a class="brand" href="#top" aria-label="Saurek's Closet, home"><span class="brand-sigil" aria-hidden="true">✦</span><span>Saurek’s <strong>Closet</strong></span></a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="#wardrobe">Wardrobe</a><a href="#features">Features</a><a href="#install">Install</a>
-      </nav>
-      <a class="header-download" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer">Download <span aria-hidden="true">↗</span></a>
-    </div>
-  </header>
+      <span class="header-meta">WORLD OF WARCRAFT <b>✦</b> 1.12.1</span>
+    </header>
 
-  <main id="main">
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="wrap hero-content">
-        <p class="hero-kicker">WORLD OF WARCRAFT <span aria-hidden="true">◆</span> 1.12.1 ADDON</p>
+    <main class="stage wrap" id="main">
+      <section class="copy" aria-labelledby="hero-title">
+        <p class="kicker">THE WARDROBE IS OPEN</p>
         <h1 id="hero-title">Saurek’s<br><span>Closet</span></h1>
-        <p class="hero-tagline">Your legend. Your look.</p>
-        <div class="hero-actions">
-          <a class="button button-gold" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer">Get the addon <span aria-hidden="true">↗</span></a>
-          <a class="hero-link" href="#wardrobe">Enter the wardrobe <span aria-hidden="true">↓</span></a>
+        <p class="tagline">Your legend. Your look.</p>
+        <p class="lede">Preview appearances, shape your character, and save looks. Your gear and stats stay the same.</p>
+        <div class="actions">
+          <a class="button button-gold" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer">Download the addon <span aria-hidden="true">↗</span></a>
+          <a class="source-link" href="https://github.com/mu-arch/SaureksCloset" target="_blank" rel="noopener noreferrer">View source ↗</a>
         </div>
-      </div>
-      <div class="hero-footer wrap"><span>AN APPEARANCE WARDROBE FOR AZEROTH</span><span class="hero-footer-mark" aria-hidden="true">✦</span></div>
-    </section>
-
-    <section class="wardrobe" id="wardrobe" aria-labelledby="wardrobe-title">
-      <div class="wrap wardrobe-inner">
-        <div class="section-heading"><span class="section-mark" aria-hidden="true">✦</span><p class="eyebrow">THE WARDROBE</p><h2 id="wardrobe-title">Dress for the <em>adventure.</em></h2><p>Find an appearance. Try it on. Keep the look.</p></div>
-        <figure class="wardrobe-image"><img src="assets/wardrobe.png" alt="Saurek's Closet character preview and searchable appearance browser in game" width="1165" height="648" loading="lazy"><figcaption>SEARCH <span>✦</span> PREVIEW <span>✦</span> SAVE</figcaption></figure>
-      </div>
-    </section>
-
-    <section class="features" id="features" aria-labelledby="features-title">
-      <div class="wrap">
-        <div class="section-heading section-heading-dark"><span class="section-mark" aria-hidden="true">✦</span><p class="eyebrow">BEYOND THE ARMOR</p><h2 id="features-title">Shape your <em>story.</em></h2></div>
-        <div class="feature-tabs" role="tablist" aria-label="Explore addon features">
-          <button class="feature-tab" type="button" role="tab" id="tab-body" aria-controls="panel-body" aria-selected="true" tabindex="0">01 <span>Character</span></button>
-          <button class="feature-tab" type="button" role="tab" id="tab-weapons" aria-controls="panel-weapons" aria-selected="false" tabindex="-1">02 <span>Weaponry</span></button>
-          <button class="feature-tab" type="button" role="tab" id="tab-looks" aria-controls="panel-looks" aria-selected="false" tabindex="-1">03 <span>Saved looks</span></button>
+        <div class="quickstart">
+          <p class="quickstart-title">QUICK START <span>WINDOWS · BUILD 5875</span></p>
+          <ol>
+            <li><b>01</b> Put <code>SaureksCloset</code> in <code>Interface/AddOns/</code>.</li>
+            <li><b>02</b> Put <code>SaureksCloset.dll</code> beside <code>WoW.exe</code>; list it after <code>VanillaHelpers.dll</code> in <code>dlls.txt</code>.</li>
+            <li><b>03</b> Launch with VanillaFixes, enable the addon, then type <code>/closet</code>.</li>
+          </ol>
+          <p class="requirements">Requires VanillaHelpers.dll. <a href="https://github.com/mu-arch/SaureksCloset#installation" target="_blank" rel="noopener noreferrer">Full guide ↗</a></p>
         </div>
-        <div class="feature-panels">
-          <article class="feature-panel" id="panel-body" role="tabpanel" aria-labelledby="tab-body"><div class="feature-image"><img src="assets/body.png" alt="Body customization panel with race, gender, skin, face, hair, and features" width="499" height="640" loading="lazy"></div><div class="feature-copy"><span class="feature-index">01 / CHARACTER</span><h3>Become who you <em>imagine.</em></h3><p>Choose your character’s face, hair, and features.</p></div></article>
-          <article class="feature-panel" id="panel-weapons" role="tabpanel" aria-labelledby="tab-weapons" hidden><div class="feature-image"><img src="assets/weaponry.png" alt="Weaponry panel with waist, back, shield, ranged weapon, and quiver slots" width="499" height="648" loading="lazy"></div><div class="feature-copy"><span class="feature-index">02 / WEAPONRY</span><h3>Carry a <em>legend.</em></h3><p>Set how your weapons appear, from hand to back.</p></div></article>
-          <article class="feature-panel" id="panel-looks" role="tabpanel" aria-labelledby="tab-looks" hidden><div class="feature-image"><img src="assets/saved-looks.png" alt="Saved Looks panel with named character appearances" width="486" height="626" loading="lazy"></div><div class="feature-copy"><span class="feature-index">03 / SAVED LOOKS</span><h3>Keep every <em>chapter.</em></h3><p>Save complete looks and switch between them.</p></div></article>
+      </section>
+
+      <section class="gallery" aria-label="Saurek's Closet screenshot gallery">
+        <div class="photo-stage" id="photo-stage">
+          <figure class="photo-card" data-depth="0" aria-hidden="false"><div class="photo-image"><img src="assets/wardrobe.png" alt="Wardrobe and item appearance search in game" width="1165" height="648"></div></figure>
+          <figure class="photo-card" data-depth="1" aria-hidden="true"><div class="photo-image"><img src="assets/body.png" alt="Character appearance controls" width="499" height="640"></div></figure>
+          <figure class="photo-card" data-depth="2" aria-hidden="true"><div class="photo-image"><img src="assets/weaponry.png" alt="Weapon appearance and placement controls" width="499" height="648"></div></figure>
+          <figure class="photo-card" data-depth="3" aria-hidden="true"><div class="photo-image"><img src="assets/saved-looks.png" alt="Saved character looks" width="486" height="626"></div></figure>
+          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/weapon-display.png" alt="Weapons displayed on a character's back" width="337" height="468"></div></figure>
+          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/bags.png" alt="Visible bags on a character" width="179" height="285"></div></figure>
+          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/appearance-browser.png" alt="Wardrobe and item appearance browser, alternate view" width="1009" height="657"></div></figure>
+          <button class="photo-hit" id="photo-hit" type="button" aria-label="Show next screenshot"></button>
         </div>
-      </div>
-    </section>
+        <div class="gallery-controls">
+          <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Previous screenshot">←</button>
+          <div class="gallery-label"><span id="photo-caption" aria-live="polite">The wardrobe</span><span id="photo-count">01 / 07</span></div>
+          <button class="gallery-arrow" id="gallery-next" type="button" aria-label="Next screenshot">→</button>
+        </div>
+        <p class="gallery-hint">CLICK THE PHOTO OR USE THE ARROWS</p>
+      </section>
+    </main>
 
-    <section class="install" id="install" aria-labelledby="install-title"><div class="wrap install-inner"><div class="install-heading"><span class="section-mark" aria-hidden="true">✦</span><p class="eyebrow">BEGIN YOUR JOURNEY</p><h2 id="install-title">Open the <em>closet.</em></h2><p>Windows WoW 1.12.1, build 5875. Requires VanillaFixes and VanillaHelpers.dll.</p><a class="button button-dark" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer">Download release <span aria-hidden="true">↗</span></a></div><ol class="install-steps"><li><span>01</span><div><h3>Download</h3><p>Get the latest release ZIP. Close the game.</p></div></li><li><span>02</span><div><h3>Place</h3><p>Put <code>SaureksCloset</code> in <code>Interface/AddOns/</code> and <code>SaureksCloset.dll</code> beside <code>WoW.exe</code>.</p></div></li><li><span>03</span><div><h3>Enter</h3><p>Add the DLL to <code>dlls.txt</code> after <code>VanillaHelpers.dll</code>. Launch with VanillaFixes and type <code>/closet</code>.</p></div></li></ol></div><div class="wrap install-note">The DLL needs a full game restart after replacement. <a href="https://github.com/mu-arch/SaureksCloset#installation" target="_blank" rel="noopener noreferrer">Full instructions ↗</a></div></section>
-  </main>
-
-  <footer class="site-footer"><div class="wrap footer-inner"><span class="footer-brand">Saurek’s <strong>Closet</strong></span><div><a href="https://github.com/mu-arch/SaureksCloset" target="_blank" rel="noopener noreferrer">Source ↗</a><a href="https://discord.gg/6mfxCdNbM6" target="_blank" rel="noopener noreferrer">Community ↗</a><a href="#top">Back to top ↑</a></div><small>Fan made addon for World of Warcraft 1.12.1. World of Warcraft belongs to Blizzard Entertainment. Addon screenshots belong to the Saurek’s Closet project.</small></div></footer>
+    <footer class="site-footer wrap"><span>FAN MADE FOR WORLD OF WARCRAFT 1.12.1</span><a href="https://discord.gg/6mfxCdNbM6" target="_blank" rel="noopener noreferrer">COMMUNITY ↗</a><small>World of Warcraft belongs to Blizzard Entertainment. Addon screenshots belong to the Saurek’s Closet project.</small></footer>
+  </div>
 </body>
 </html>

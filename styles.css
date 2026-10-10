@@ -1,156 +1,115 @@
-:root{--night:#101a20;--night-2:#1a2429;--ink:#25251f;--cream:#eadfc6;--gold:#d5b878;--bright:#f4dfaa;--bronze:#907346}
+:root{--gold:#e6c683;--cream:#f1e7cf;--muted:#b5b1a5;--ink:#10191f}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--night);color:#efe7d5;font:400 16px/1.6 Inter,Arial,sans-serif}
-img{display:block;max-width:100%;height:auto}
-a{color:inherit}
+body{margin:0;background:var(--ink);color:var(--cream);font:400 14px/1.6 Inter,Arial,sans-serif}
 button{font:inherit}
-h1,h2,h3,p,figure{margin:0}
-.wrap{width:min(1160px,calc(100% - 72px));margin-inline:auto}
-.skip-link{position:absolute;z-index:100;top:-60px;left:12px;padding:10px 14px;background:#fff;color:#111}
+a{color:inherit}
+img{display:block;max-width:100%}
+h1,p,figure{margin:0}
+.wrap{width:min(1360px,calc(100% - 72px));margin-inline:auto}
+.skip-link{position:absolute;top:-60px;left:12px;z-index:100;padding:10px 14px;background:#fff;color:#111}
 .skip-link:focus{top:12px}
-:focus-visible{outline:3px solid var(--bright);outline-offset:4px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
 
-/* The wordmark floats over the artwork like a game title screen. */
-.site-header{position:absolute;z-index:10;inset:0 0 auto;color:#eadfc8;background:linear-gradient(180deg,rgba(6,10,14,.82),rgba(6,10,14,.32) 73%,transparent)}
-.header-inner{min-height:88px;display:flex;align-items:center;gap:36px}
-.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;white-space:nowrap;font:600 20px/1 Cinzel,Georgia,serif;letter-spacing:-.035em;text-shadow:0 2px 4px #000}
-.brand strong,.footer-brand strong{color:var(--gold);font-weight:600}
-.brand-sigil{display:grid;place-items:center;width:31px;height:31px;color:var(--bright);font:23px Georgia,serif;text-shadow:0 0 12px #e9c674;border:1px solid rgba(217,182,111,.75);transform:rotate(45deg)}
-.brand-sigil::first-letter{transform:rotate(-45deg)}
-.main-nav{display:flex;gap:35px;margin-left:auto}
-.main-nav a,.header-download{font:600 11px/1.4 Cinzel,Georgia,serif;letter-spacing:.1em;text-decoration:none;text-transform:uppercase}
-.main-nav a{color:#d7ccb4;transition:color .2s}
-.main-nav a:hover,.hero-link:hover,.site-footer a:hover{color:var(--bright)}
-.header-download{padding:11px 0;color:var(--bright);border-bottom:1px solid var(--gold);white-space:nowrap}
+.page{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;background:#10191f}
+.page::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,rgba(7,12,17,.94) 0%,rgba(9,16,20,.86) 42%,rgba(8,14,17,.62) 100%),linear-gradient(0deg,rgba(6,10,13,.9),transparent 28%),url("assets/atelier-hero.webp") center/cover no-repeat}
+.page::after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 59% 45%,transparent 25%,rgba(4,8,12,.3) 95%)}
+.site-header{min-height:82px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;white-space:nowrap;font:600 20px/1 Cinzel,Georgia,serif;letter-spacing:-.035em;text-shadow:0 2px 4px #000}
+.brand strong{color:var(--gold);font-weight:600}
+.brand-sigil{display:grid;place-items:center;width:29px;height:29px;transform:rotate(45deg);border:1px solid rgba(233,200,134,.7);color:#f5dea8;font:21px Georgia,serif;text-shadow:0 0 10px var(--gold)}
+.header-meta{color:#c6b88f;font:600 10px Cinzel,Georgia,serif;letter-spacing:.15em}
+.header-meta b{padding:0 10px;color:var(--gold);font-size:8px}
 
-/* Castle atelier painting, with room left for the title. */
-.hero{position:relative;min-height:min(830px,100svh);isolation:isolate;display:flex;flex-direction:column;justify-content:center;overflow:hidden;background:#111a20 url("assets/atelier-hero.webp") center center/cover no-repeat}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(7,12,17,.47),rgba(7,12,17,.14) 55%,rgba(7,12,17,.03)),linear-gradient(0deg,#101a20 0%,transparent 15%,transparent 82%,rgba(5,9,13,.35))}
-.hero-content{padding-top:135px;padding-bottom:135px}
-.hero-kicker,.eyebrow,.feature-index{font:600 11px/1.4 Cinzel,Georgia,serif;letter-spacing:.23em}
-.hero-kicker{color:#e6d5a9;text-shadow:0 2px 5px #000}
-.hero-kicker span{padding:0 12px;font-size:8px;vertical-align:2px;color:var(--gold)}
-.hero h1{margin:25px 0 4px;font:700 clamp(72px,10vw,146px)/.92 Cinzel,Georgia,serif;letter-spacing:-.07em;color:#f1e6c9;text-shadow:0 4px 0 #2c2118,0 6px 3px #000,0 0 23px rgba(0,0,0,.8);-webkit-text-stroke:1px rgba(129,89,41,.35)}
-.hero h1 span{display:inline-block;margin-left:65px;color:#f0d695;-webkit-text-fill-color:#f0d695;filter:drop-shadow(0 5px 3px #000)}
-.hero-tagline{margin:23px 0 0 70px;color:#f7eedb;font:italic 600 clamp(26px,3vw,37px)/1.15 "Cormorant Garamond",Georgia,serif;letter-spacing:.015em;text-shadow:0 2px 6px #000}
-.hero-actions{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin:43px 0 0 70px}
-.button{display:inline-flex;align-items:center;justify-content:center;gap:20px;min-height:52px;padding:14px 25px;text-decoration:none;text-transform:uppercase;font:700 12px/1.3 Cinzel,Georgia,serif;letter-spacing:.08em;transition:transform .2s,filter .2s}
-.button:hover{transform:translateY(-2px);filter:brightness(1.13)}
-.button-gold{color:#211b12;background:linear-gradient(180deg,#f7dda4,#c5a058 55%,#96703d);box-shadow:0 4px 0 #604c30,0 9px 22px #0008,inset 0 1px 0 #fff4c7}
-.hero-link{color:#e9d3a4;font:600 11px Cinzel,Georgia,serif;letter-spacing:.08em;text-decoration:none;text-transform:uppercase;text-shadow:0 2px 4px #000}
-.hero-link span{margin-left:8px}
-.hero-footer{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;color:#ceb98c;font:600 9px Cinzel,Georgia,serif;letter-spacing:.2em;text-shadow:0 2px 4px #000}
-.hero-footer-mark{font:24px Georgia,serif;color:var(--gold)}
+.stage{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:clamp(24px,4vw,65px);flex:1;padding-top:25px;padding-bottom:25px}
+.copy{position:relative;z-index:1;max-width:585px;padding-bottom:10px}
+.kicker{color:#ddc58e;font:600 11px Cinzel,Georgia,serif;letter-spacing:.22em;text-shadow:0 2px 4px #000}
+.kicker::before{content:"";display:inline-block;width:30px;height:1px;margin-right:12px;vertical-align:4px;background:var(--gold)}
+h1{margin:22px 0 2px;font:700 clamp(62px,6.7vw,112px)/.91 Cinzel,Georgia,serif;letter-spacing:-.07em;color:#f4e6c8;text-shadow:0 4px 0 #30251b,0 7px 5px #000,0 0 20px #0009}
+h1 span{display:inline-block;margin-left:42px;color:#f0d695}
+.tagline{margin:22px 0 0 47px;color:#fff1d5;font:italic 600 clamp(28px,2.8vw,39px)/1.1 "Cormorant Garamond",Georgia,serif;text-shadow:0 2px 7px #000}
+.lede{max-width:475px;margin:24px 0 0;color:#d3d0c7;font-size:14px;line-height:1.75}
+.actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap;margin-top:28px}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:49px;padding:13px 21px;text-decoration:none;text-transform:uppercase;font:700 11px Cinzel,Georgia,serif;letter-spacing:.06em;transition:transform .2s,filter .2s}
+.button:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.button-gold{color:#211b12;background:linear-gradient(180deg,#f7dda4,#c5a058 55%,#96703d);box-shadow:0 4px 0 #604c30,0 8px 20px #0008,inset 0 1px 0 #fff4c7}
+.source-link{color:#d8c18c;text-decoration:none;text-transform:uppercase;font:600 10px Cinzel,Georgia,serif;letter-spacing:.08em}
+.source-link:hover,.quickstart a:hover,.site-footer a:hover{color:#fff0c9}
+.quickstart{max-width:500px;margin-top:37px;padding-top:20px;border-top:1px solid rgba(224,193,127,.35)}
+.quickstart-title{display:flex;justify-content:space-between;gap:20px;color:#e3cc99;font:600 11px Cinzel,Georgia,serif;letter-spacing:.12em}
+.quickstart-title span{color:#9da8a4;font-size:9px;letter-spacing:.05em;white-space:nowrap}
+.quickstart ol{display:grid;gap:5px;list-style:none;margin:14px 0 0;padding:0;color:#c9c7bd;font-size:12px}
+.quickstart li b{margin-right:10px;color:#d6b977;font:600 12px Cinzel,Georgia,serif}
+.quickstart code{color:#efdaa9;background:rgba(228,198,139,.08);padding:1px 3px;font-size:.94em;overflow-wrap:anywhere}
+.requirements{margin-top:13px;color:#aeb7b1;font-size:11px}
+.requirements a{margin-left:10px;color:#d9be86;text-decoration:none;font-weight:600}
 
-/* The original linen becomes an illustrated folio for the addon itself. */
-.wardrobe,.install{position:relative;color:var(--ink);background:linear-gradient(rgba(234,222,197,.45),rgba(234,222,197,.45)),url("assets/parchment.webp") center/700px repeat}
-.wardrobe{padding:102px 0 112px}
-.wardrobe::before,.install::before{content:"";position:absolute;inset:0 0 auto;height:17px;background:linear-gradient(180deg,#101a20,transparent)}
-.section-heading{text-align:center}
-.section-mark{display:block;color:#927143;font:27px Georgia,serif;line-height:1;margin-bottom:13px}
-.eyebrow{color:#806138}
-.section-heading h2,.install h2{font:600 clamp(49px,6vw,78px)/1.04 "Cormorant Garamond",Georgia,serif;letter-spacing:-.025em}
-.section-heading h2 em,.install h2 em{color:#947341;font-weight:600}
-.section-heading>p:last-child{margin-top:11px;font-size:14px;color:#595348}
-.wardrobe-image{width:min(1050px,100%);margin:52px auto 0;position:relative;padding:11px;background:#1d2629;box-shadow:0 20px 35px #2e251d55,0 2px 0 #8d764e}
-.wardrobe-image::before{content:"";position:absolute;inset:5px;border:1px solid rgba(210,176,108,.55);pointer-events:none}
-.wardrobe-image img{width:100%;aspect-ratio:1165/648;object-fit:cover}
-.wardrobe-image figcaption{text-align:center;padding-top:17px;background:#1d2629;color:#d9bf84;font:600 11px Cinzel,Georgia,serif;letter-spacing:.25em}
-.wardrobe-image figcaption span{padding:0 26px;font-size:8px;vertical-align:2px}
+.gallery{width:100%;min-width:0;align-self:center}
+.photo-stage{position:relative;width:min(100%,680px);height:clamp(410px,40vw,550px);margin-inline:auto;touch-action:pan-y;perspective:1100px;user-select:none}
+.photo-card{position:absolute;left:4%;top:7%;width:84%;height:84%;margin:0;padding:8px;border-radius:17px;background:#e8e1cf;box-shadow:0 20px 52px #000b,0 2px 9px #0006,inset 0 1px #fffaf0;transform-origin:50% 50%;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .3s ease,visibility .3s;will-change:transform}
+.photo-image{position:relative;width:100%;height:100%;overflow:hidden;border-radius:10px;background:radial-gradient(circle at 50% 30%,#414842,#151e20 75%)}
+.photo-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:contrast(1.04)}
+.photo-card[data-depth="0"]{z-index:5;opacity:1;transform:translate3d(0,25px,0) rotate(-2deg) scale(1)}
+.photo-card[data-depth="1"]{z-index:4;opacity:1;transform:translate3d(25px,-5px,-30px) rotate(3deg) scale(.96)}
+.photo-card[data-depth="2"]{z-index:3;opacity:1;transform:translate3d(48px,-29px,-60px) rotate(7deg) scale(.92)}
+.photo-card[data-depth="3"]{z-index:2;opacity:1;transform:translate3d(68px,-46px,-90px) rotate(10deg) scale(.88)}
+.photo-card[data-depth="hidden"]{z-index:1;opacity:0;visibility:hidden;transform:translate3d(83px,-55px,-120px) rotate(11deg) scale(.84);transition:none}
+.photo-hit{position:absolute;z-index:7;left:4%;top:7%;width:84%;height:84%;border:0;background:transparent;cursor:pointer;transform:translateY(25px) rotate(-2deg)}
+.photo-hit:focus-visible{outline-offset:6px;border-radius:18px}
+.gallery-controls{display:flex;align-items:center;justify-content:center;gap:17px;max-width:420px;margin:4px auto 0}
+.gallery-arrow{display:grid;place-items:center;flex:none;width:41px;height:41px;border:1px solid rgba(232,200,139,.6);border-radius:50%;background:rgba(10,17,20,.67);color:#f2db9f;cursor:pointer;font-size:20px;line-height:1;transition:background .2s,transform .2s}
+.gallery-arrow:hover{background:rgba(136,102,51,.5);transform:scale(1.06)}
+.gallery-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;min-width:220px;color:#f0e5ca;font:600 15px "Cormorant Garamond",Georgia,serif}
+.gallery-label span:last-child{color:#d3bb84;font:600 10px Cinzel,Georgia,serif;white-space:nowrap}
+.gallery-hint{margin-top:11px;color:#abaeaa;text-align:center;font:600 9px Cinzel,Georgia,serif;letter-spacing:.14em}
+.site-footer{display:flex;align-items:center;gap:24px;min-height:58px;border-top:1px solid rgba(225,195,133,.22);color:#b2afa3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em}
+.site-footer>a{margin-left:auto;color:#dcc28d;text-decoration:none}
+.site-footer small{max-width:440px;color:#89928e;font:400 9px/1.45 Inter,Arial,sans-serif;letter-spacing:0}
 
-/* Dark, theatrical panel with the actual in-game UI as the focus. */
-.features{position:relative;overflow:hidden;padding:98px 0 110px;background:linear-gradient(90deg,rgba(9,17,21,.93),rgba(16,27,32,.83)),url("assets/atelier-hero.webp") center 70%/cover no-repeat}
-.features::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(5,10,13,.42))}
-.features>.wrap{position:relative}
-.section-heading-dark .section-mark{color:var(--gold)}
-.section-heading-dark .eyebrow{color:#d7bd87}
-.section-heading-dark h2{color:#f0e7d3}
-.section-heading-dark h2 em{color:var(--gold)}
-.feature-tabs{display:flex;justify-content:center;gap:clamp(12px,3vw,38px);margin:50px auto 0}
-.feature-tab{border:0;border-bottom:2px solid transparent;background:none;padding:11px 4px 13px;color:#a49677;cursor:pointer;text-align:left;font:600 11px Cinzel,Georgia,serif;letter-spacing:.05em}
-.feature-tab span{display:block;margin-top:2px;color:#ddd2b6;font-size:16px;letter-spacing:0}
-.feature-tab[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold)}
-.feature-tab[aria-selected="true"] span,.feature-tab:hover span{color:#fff3ce}
-.feature-panel{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(35px,8vw,100px);align-items:center;width:min(900px,100%);margin:50px auto 0}
-.feature-panel[hidden]{display:none}
-.feature-image{justify-self:end;padding:6px;background:#0c1114;box-shadow:0 22px 48px #0009,0 0 0 1px #ac8654}
-.feature-image img{max-height:460px;width:auto}
-.feature-index{color:var(--gold)}
-.feature-copy h3{max-width:450px;margin:17px 0 15px;color:#f4ead4;font:600 clamp(48px,5vw,68px)/.99 "Cormorant Garamond",Georgia,serif}
-.feature-copy h3 em{color:#d5b878}
-.feature-copy p{max-width:370px;color:#bfc4bd;font-size:14px}
-
-/* Install directions remain short and legible. */
-.install{padding:100px 0 58px}
-.install-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,8vw,115px)}
-.install-heading .section-mark{margin-bottom:14px}
-.install h2{margin:11px 0 19px}
-.install-heading>p:not(.eyebrow){max-width:360px;color:#5d584d;font-size:14px}
-.button-dark{margin-top:28px;background:#263238;color:#f2e0b6;box-shadow:0 4px 0 #111c20,0 8px 17px #2c251d44}
-.install-steps{list-style:none;margin:11px 0 0;padding:0}
-.install-steps li{display:grid;grid-template-columns:48px 1fr;gap:17px;padding:0 0 22px;margin-bottom:23px;border-bottom:1px solid rgba(92,70,42,.23)}
-.install-steps li>span{color:#947341;font:600 26px "Cormorant Garamond",Georgia,serif}
-.install-steps h3{margin-bottom:3px;font:600 29px "Cormorant Garamond",Georgia,serif}
-.install-steps p{color:#55544c;font-size:13px;line-height:1.65}
-.install code{padding:1px 3px;background:#d7c8a8;color:#243035;font-size:.93em;overflow-wrap:anywhere}
-.install-note{margin-top:38px;padding-top:19px;border-top:1px solid rgba(92,70,42,.2);font-size:12px;color:#605b51}
-.install-note a{margin-left:10px;color:#79552e;font-weight:600}
-
-.site-footer{padding:32px 0;background:#10191e;color:#aeb1aa}
-.footer-inner{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px 40px}
-.footer-brand{color:#eadfc8;font:600 20px Cinzel,Georgia,serif}
-.footer-inner>div{display:flex;justify-content:flex-end;gap:26px}
-.site-footer a{color:#d2bd8e;text-decoration:none;text-transform:uppercase;font:600 10px Cinzel,Georgia,serif;letter-spacing:.06em}
-.footer-inner small{grid-column:1/-1;font-size:10px;color:#89908d}
-
-@media(max-width:850px){
-  .wrap{width:min(100% - 48px,720px)}
-  .main-nav{gap:18px}
-  .hero{min-height:720px;background-position:58% center}
-  .hero h1{font-size:clamp(67px,12vw,110px)}
-  .feature-panel{grid-template-columns:1fr 1fr;gap:35px}
+@media(max-width:1050px){
+  .wrap{width:calc(100% - 48px)}
+  .stage{gap:12px}
+  h1{font-size:clamp(63px,7.2vw,90px)}
+  .photo-stage{height:clamp(390px,45vw,500px)}
+  .quickstart{margin-top:27px}
 }
-@media(max-width:640px){
-  .wrap{width:calc(100% - 36px)}
-  .header-inner{min-height:70px;gap:12px}
+@media(max-width:760px){
+  .page::before{background:linear-gradient(rgba(7,12,17,.84),rgba(8,14,17,.89)),url("assets/atelier-hero.webp") 60% center/cover no-repeat}
+  .stage{grid-template-columns:1fr;gap:14px;padding-top:30px}
+  .copy{max-width:650px}
+  .photo-stage{height:min(74vw,530px)}
+  .gallery{margin-top:25px}
+  .site-footer{flex-wrap:wrap;gap:7px 20px;padding-block:16px}
+  .site-footer small{width:100%;max-width:none}
+}
+@media(max-width:520px){
+  .wrap{width:calc(100% - 34px)}
+  .site-header{min-height:69px}
   .brand{font-size:15px;gap:8px}
-  .brand-sigil{width:24px;height:24px;font-size:17px}
-  .main-nav{display:none}
-  .header-download{margin-left:auto;font-size:10px}
-  .hero{min-height:710px;background-position:61% center}
-  .hero::before{background:linear-gradient(90deg,rgba(7,12,17,.74),rgba(7,12,17,.3)),linear-gradient(0deg,#101a20,transparent 22%,transparent 75%,rgba(5,9,13,.4))}
-  .hero-content{padding-top:145px;padding-bottom:125px}
-  .hero-kicker{font-size:9px;letter-spacing:.13em}
-  .hero-kicker span{padding:0 5px}
-  .hero h1{margin-top:25px;font-size:clamp(56px,14vw,86px);letter-spacing:-.085em}
-  .hero h1 span{margin-left:20px}
-  .hero-tagline,.hero-actions{margin-left:20px}
-  .hero-tagline{font-size:27px}
-  .hero-actions{align-items:flex-start;gap:25px;margin-top:32px;flex-direction:column}
-  .button{min-height:48px;padding:12px 19px;font-size:11px}
-  .hero-footer{font-size:8px;letter-spacing:.1em}
-  .wardrobe,.features,.install{padding-top:74px;padding-bottom:78px}
-  .section-heading h2,.install h2{font-size:clamp(48px,12vw,65px)}
-  .wardrobe-image{margin-top:38px;padding:5px}
-  .wardrobe-image::before{inset:2px}
-  .wardrobe-image figcaption{padding-top:12px;font-size:9px;letter-spacing:.12em}
-  .wardrobe-image figcaption span{padding:0 8px}
-  .feature-tabs{justify-content:space-between;gap:6px;margin-top:37px}
-  .feature-tab{font-size:9px}
-  .feature-tab span{font-size:11px}
-  .feature-panel{display:flex;flex-direction:column-reverse;align-items:center;gap:26px;margin-top:35px;text-align:center}
-  .feature-copy h3{font-size:49px;margin:11px auto}
-  .feature-copy p{font-size:13px}
-  .feature-image{justify-self:center}
-  .feature-image img{max-height:350px}
-  .install-inner{grid-template-columns:1fr;gap:40px}
-  .install-steps{margin:0}
-  .install-steps li{margin-bottom:17px;padding-bottom:17px}
-  .install-note{margin-top:10px;line-height:1.6}
-  .install-note a{display:block;margin:8px 0 0}
-  .footer-inner{grid-template-columns:1fr}
-  .footer-inner>div{justify-content:flex-start;flex-wrap:wrap;gap:14px 20px}
+  .brand-sigil{width:23px;height:23px;font-size:17px}
+  .header-meta{font-size:8px;letter-spacing:.05em}
+  .header-meta b{padding:0 4px}
+  .stage{padding-top:29px}
+  .kicker{font-size:9px}
+  h1{margin-top:18px;font-size:clamp(58px,14.5vw,78px)}
+  h1 span{margin-left:19px}
+  .tagline{margin:18px 0 0 22px;font-size:29px}
+  .lede{margin-top:20px;font-size:13px}
+  .actions{margin-top:22px;gap:20px}
+  .button{min-height:46px;padding:11px 16px;font-size:10px}
+  .quickstart{margin-top:27px}
+  .quickstart-title{font-size:10px}
+  .quickstart-title span{font-size:8px}
+  .quickstart ol{font-size:11px}
+  .gallery{margin-top:18px}
+  .photo-stage{height:77vw;min-height:305px}
+  .photo-card{border-radius:12px;padding:5px}
+  .photo-image{border-radius:7px}
+  .gallery-controls{margin-top:8px;gap:10px}
+  .gallery-arrow{width:36px;height:36px}
+  .gallery-label{min-width:180px}
+  .gallery-hint{font-size:8px}
+  .site-footer{font-size:8px}
 }
-@media(max-width:370px){.brand{font-size:13px}.hero h1{font-size:54px}.hero-kicker{font-size:8px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.main-nav a{transition:none}}
+@media(max-width:365px){.brand{font-size:13px}.header-meta{font-size:7px}.quickstart-title{flex-wrap:wrap;gap:3px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.gallery-arrow,.photo-card{transition:none}}
