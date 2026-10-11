@@ -17,6 +17,9 @@ const count = document.querySelector('#photo-count');
 const playButton = document.querySelector('#gallery-play');
 const progress = document.querySelector('#gallery-progress-fill');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const installButton = document.querySelector('.button-gold');
+const cardMedia = cards.map((card) => card.querySelector('img, video'));
+let resizeFrame = 0;
 const slideDelay = 5600;
 let active = 0;
 let moving = false;
@@ -28,44 +31,56 @@ let suppressClick = false;
 let hovering = false;
 let videoPlaybackFailed = false;
 
+installButton.addEventListener('click', () => {
+  if (reducedMotion.matches) return;
+  installButton.classList.remove('is-pulsing');
+  void installButton.offsetWidth;
+  installButton.classList.add('is-pulsing');
+});
+installButton.addEventListener('animationend', (event) => {
+  if (event.animationName === 'install-golden-pulse') installButton.classList.remove('is-pulsing');
+});
+
 function sizeCards() {
   const maxWidth = Math.min(stage.clientWidth * .86, 620);
   const maxHeight = Math.min(stage.clientHeight * .82, 470);
-  cards.forEach((card) => {
-    const media = card.querySelector('img, video');
+  const widths = cards.map((card, index) => {
+    const media = cardMedia[index];
     const ratio = Number(media.getAttribute('width')) / Number(media.getAttribute('height'));
     const style = getComputedStyle(card);
     const frame = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
       + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
     const imageWidth = Math.min(maxWidth - frame, (maxHeight - frame) * ratio);
-    card.style.width = Math.round(imageWidth + frame) + 'px';
+    return Math.round(imageWidth + frame) + 'px';
   });
+  cards.forEach((card, index) => { card.style.width = widths[index]; });
 }
 
-function render() {
+function render(exitingCard = null) {
   cards.forEach((card, index) => {
     const depth = (index - active + cards.length) % cards.length;
-    card.dataset.depth = depth < 4 ? String(depth) : 'hidden';
+    if (card !== exitingCard) card.dataset.depth = depth < 4 ? String(depth) : 'hidden';
     card.setAttribute('aria-hidden', String(depth !== 0));
     card.tabIndex = depth === 0 ? 0 : -1;
     if (depth === 0) card.setAttribute('aria-label', 'Show next preview. Current: ' + captions[index]);
   });
   caption.textContent = captions[active];
   count.textContent = String(active + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
-  syncVideo();
+  syncVideo(exitingCard);
   updatePlayButton();
 }
 
-function syncVideo() {
+function syncVideo(exitingCard = null) {
   if (!demoVideo) return;
   if (cards[active] !== videoCard) {
+    if (videoCard === exitingCard) return;
     demoVideo.pause();
     if (demoVideo.readyState) demoVideo.currentTime = 0;
     return;
   }
   if (demoVideo.readyState) demoVideo.currentTime = 0;
   videoPlaybackFailed = false;
-  if (!playing) {
+  if (!playing || document.hidden) {
     demoVideo.pause();
     return;
   }
@@ -85,7 +100,7 @@ function updatePlayButton() {
 function scheduleAuto() {
   window.clearTimeout(autoTimer);
   progress.style.animation = 'none';
-  if (!playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
+  if (document.hidden || !playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
   if (cards[active] === videoCard && !videoPlaybackFailed) {
     const remaining = Number.isFinite(demoVideo.duration)
       ? Math.max(1000, (demoVideo.duration - demoVideo.currentTime) * 1000 + 1000)
@@ -100,25 +115,18 @@ function scheduleAuto() {
   autoTimer = window.setTimeout(() => move(1), slideDelay);
 }
 
-function finishMove(nextIndex, animation) {
-  active = nextIndex;
-  render();
-  if (animation) animation.cancel();
-  if (!reducedMotion.matches) {
-    const incoming = cards[active];
-    incoming.animate([
-      { transform: 'translate(-50%, -50%) translateY(18px) rotate(-7deg) scale(.83)', opacity: .25 },
-      { transform: 'translate(-50%, -50%) rotate(-2deg) scale(1)', opacity: 1 },
-    ], {
-      duration: 460,
-      easing: 'cubic-bezier(.16,.72,.24,1)',
-    });
-  }
+function finishMove(oldCard, animation) {
+  const oldIndex = cards.indexOf(oldCard);
+  const depth = (oldIndex - active + cards.length) % cards.length;
+  oldCard.dataset.depth = depth < 4 ? String(depth) : 'hidden';
+  oldCard.classList.remove('is-exiting');
+  animation.cancel();
+  if (oldCard === videoCard) syncVideo();
   window.setTimeout(() => {
     moving = false;
     gallery.setAttribute('aria-busy', 'false');
     scheduleAuto();
-  }, reducedMotion.matches ? 0 : 500);
+  }, reducedMotion.matches ? 0 : 100);
 }
 
 function move(step) {
@@ -130,28 +138,38 @@ function move(step) {
   const oldCard = cards[active];
   const nextIndex = (active + step + cards.length) % cards.length;
 
-  if (reducedMotion.matches) {
-    finishMove(nextIndex, null);
-    return;
+  if (step < 0) {
+    cards[nextIndex].dataset.depth = '1';
+    void cards[nextIndex].offsetWidth;
   }
-
-  if (step < 0) cards[nextIndex].dataset.depth = '1';
-  const direction = step > 0 ? 1 : -1;
+  const direction = step > 0 ? -1 : 1;
   const distance = Math.min(stage.clientWidth * .38, 250);
-  const animation = oldCard.animate([
-    { transform: getComputedStyle(oldCard).transform, opacity: 1 },
-    { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 12) + 'deg) scale(.62)', opacity: 0 },
-  ], {
-    duration: 460,
+  const startTransform = getComputedStyle(oldCard).transform;
+  oldCard.classList.add('is-exiting');
+  const frames = reducedMotion.matches
+    ? [{ opacity: 1 }, { opacity: 0 }]
+    : [
+      { transform: startTransform, opacity: 1 },
+      { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 12) + 'deg) scale(.62)', opacity: 0 },
+    ];
+  const animation = oldCard.animate(frames, {
+    duration: reducedMotion.matches ? 180 : 460,
     easing: 'cubic-bezier(.22,.64,.24,1)',
     fill: 'forwards',
   });
 
-  animation.finished.then(() => finishMove(nextIndex, animation)).catch(() => {
-    moving = false;
-    gallery.setAttribute('aria-busy', 'false');
-    scheduleAuto();
-  });
+  active = nextIndex;
+  render(oldCard);
+  if (reducedMotion.matches) {
+    cards[active].animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: 180,
+      easing: 'ease-out',
+    });
+  }
+  animation.finished.then(
+    () => finishMove(oldCard, animation),
+    () => finishMove(oldCard, animation),
+  );
 }
 
 cards.forEach((card, index) => {
@@ -230,8 +248,27 @@ stage.addEventListener('pointerup', (event) => {
   window.setTimeout(() => { suppressClick = false; }, 100);
 });
 stage.addEventListener('pointercancel', () => { pointerStart = null; });
-window.addEventListener('resize', sizeCards);
+window.addEventListener('resize', () => {
+  window.cancelAnimationFrame(resizeFrame);
+  resizeFrame = window.requestAnimationFrame(sizeCards);
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    window.clearTimeout(autoTimer);
+    progress.style.animationPlayState = 'paused';
+    demoVideo?.pause();
+    return;
+  }
+  if (playing && cards[active] === videoCard) {
+    demoVideo.play().catch(() => {
+      videoPlaybackFailed = true;
+      scheduleAuto();
+    });
+  }
+  scheduleAuto();
+});
 
 sizeCards();
 render();
+stage.classList.add('is-sized');
 scheduleAuto();
