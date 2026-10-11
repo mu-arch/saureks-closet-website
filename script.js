@@ -19,6 +19,16 @@ const progress = document.querySelector('#gallery-progress-fill');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const installButton = document.querySelector('.button-gold');
 const cardMedia = cards.map((card) => card.querySelector('img, video'));
+const previewDialog = document.querySelector('#preview-dialog');
+const previewControls = previewDialog.querySelector('.gallery-controls');
+const previewTitle = document.querySelector('#preview-title');
+const previewCount = document.querySelector('#preview-count');
+let previewCard = null;
+let previewHome = null;
+let previewBusy = false;
+let previewClosing = false;
+let previewCloseRequested = false;
+let resumePreviewVideo = false;
 let resizeFrame = 0;
 const slideDelay = 5600;
 let active = 0;
@@ -41,6 +51,32 @@ installButton.addEventListener('animationend', (event) => {
   if (event.animationName === 'install-golden-pulse') installButton.classList.remove('is-pulsing');
 });
 
+async function loadInstallVersion() {
+  const badge = installButton.querySelector('.button-version');
+  if (!badge) return;
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 6000);
+  try {
+    const response = await fetch('https://api.github.com/repos/mu-arch/SaureksCloset/releases/latest', {
+      headers: { Accept: 'application/vnd.github+json' },
+      signal: controller.signal,
+    });
+    if (!response.ok) return;
+    const release = await response.json();
+    if (typeof release.tag_name !== 'string') return;
+    const version = release.tag_name.trim();
+    if (!version || version.length > 64) return;
+    badge.textContent = version;
+    badge.title = 'Latest release: ' + version;
+    badge.hidden = false;
+    installButton.classList.add('has-version');
+  } catch {
+    // This optional lookup must never interrupt the Install link.
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 function sizeCards() {
   const maxWidth = Math.min(stage.clientWidth * .86, 620);
   const maxHeight = Math.min(stage.clientHeight * .82, 470);
@@ -53,20 +89,23 @@ function sizeCards() {
     const imageWidth = Math.min(maxWidth - frame, (maxHeight - frame) * ratio);
     return Math.round(imageWidth + frame) + 'px';
   });
-  cards.forEach((card, index) => { card.style.width = widths[index]; });
+  cards.forEach((card, index) => {
+    if (card === previewCard) previewHome.width = widths[index];
+    else card.style.width = widths[index];
+  });
 }
 
-function render(exitingCard = null) {
+function render(exitingCard = null, updateVideo = true) {
   cards.forEach((card, index) => {
     const depth = (index - active + cards.length) % cards.length;
     if (card !== exitingCard) card.dataset.depth = depth < 4 ? String(depth) : 'hidden';
     card.setAttribute('aria-hidden', String(depth !== 0));
     card.tabIndex = depth === 0 ? 0 : -1;
-    if (depth === 0) card.setAttribute('aria-label', 'Show next preview. Current: ' + captions[index]);
+    if (depth === 0) card.setAttribute('aria-label', 'Enlarge preview: ' + captions[index]);
   });
   caption.textContent = captions[active];
   count.textContent = String(active + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
-  syncVideo(exitingCard);
+  if (updateVideo) syncVideo(exitingCard);
   updatePlayButton();
 }
 
@@ -80,7 +119,7 @@ function syncVideo(exitingCard = null) {
   }
   if (demoVideo.readyState) demoVideo.currentTime = 0;
   videoPlaybackFailed = false;
-  if (!playing || document.hidden) {
+  if (!playing || document.hidden || previewDialog.open) {
     demoVideo.pause();
     return;
   }
@@ -100,7 +139,7 @@ function updatePlayButton() {
 function scheduleAuto() {
   window.clearTimeout(autoTimer);
   progress.style.animation = 'none';
-  if (document.hidden || !playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
+  if (document.hidden || previewDialog.open || !playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
   if (cards[active] === videoCard && !videoPlaybackFailed) {
     const remaining = Number.isFinite(demoVideo.duration)
       ? Math.max(1000, (demoVideo.duration - demoVideo.currentTime) * 1000 + 1000)
@@ -119,7 +158,7 @@ function finishMove(oldCard, animation) {
   const oldIndex = cards.indexOf(oldCard);
   const depth = (oldIndex - active + cards.length) % cards.length;
   oldCard.dataset.depth = depth < 4 ? String(depth) : 'hidden';
-  oldCard.classList.remove('is-exiting');
+  oldCard.classList.remove('is-exiting', 'is-retreating');
   animation.cancel();
   if (oldCard === videoCard) syncVideo();
   window.setTimeout(() => {
@@ -130,7 +169,7 @@ function finishMove(oldCard, animation) {
 }
 
 function move(step) {
-  if (moving) return;
+  if (moving || previewDialog.open) return;
   moving = true;
   gallery.setAttribute('aria-busy', 'true');
   window.clearTimeout(autoTimer);
@@ -140,15 +179,22 @@ function move(step) {
   const incomingCard = cards[nextIndex];
 
   if (step < 0) incomingCard.classList.add('is-entering');
-  const direction = step > 0 ? -1 : 1;
   const distance = Math.min(stage.clientWidth * .38, 250);
   const startTransform = getComputedStyle(oldCard).transform;
-  oldCard.classList.add('is-exiting');
+  const goingBack = step < 0;
+  oldCard.classList.add(goingBack ? 'is-retreating' : 'is-exiting');
+  // Previous returns the current card directly to the second stack position.
+  // Keep its final CSS transform underneath the animation so cleanup cannot pop it back in.
+  if (goingBack) oldCard.dataset.depth = '1';
+  const endTransform = goingBack
+    ? getComputedStyle(oldCard).transform
+    : 'translate(-50%, -50%) translateX(' + (-distance) + 'px) rotate(-12deg) scale(.62)';
+  const endOpacity = goingBack ? 1 : 0;
   const frames = reducedMotion.matches
-    ? [{ opacity: 1 }, { opacity: 0 }]
+    ? [{ opacity: 1 }, { opacity: endOpacity }]
     : [
       { transform: startTransform, opacity: 1 },
-      { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 12) + 'deg) scale(.62)', opacity: 0 },
+      { transform: endTransform, opacity: endOpacity },
     ];
   const animation = oldCard.animate(frames, {
     duration: reducedMotion.matches ? 180 : 460,
@@ -187,9 +233,191 @@ function move(step) {
   );
 }
 
+function cardPose(card) {
+  const bounds = card.getBoundingClientRect();
+  const matrix = new DOMMatrixReadOnly(getComputedStyle(card).transform);
+  return {
+    x: bounds.left + bounds.width / 2,
+    y: bounds.top + bounds.height / 2,
+    width: card.offsetWidth,
+    angle: Math.atan2(matrix.b, matrix.a) * 180 / Math.PI,
+  };
+}
+
+function fitPreview() {
+  if (!previewCard) return;
+  const source = cardMedia[active];
+  const ratio = Number(source.getAttribute('width')) / Number(source.getAttribute('height'));
+  const style = getComputedStyle(previewCard);
+  const frameWidth = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+    + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+  const frameHeight = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom)
+    + parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+  const bounds = previewDialog.getBoundingClientRect();
+  const controls = previewControls.getBoundingClientRect();
+  const padding = Math.min(28, Math.max(16, previewDialog.clientWidth * .025));
+  const gap = Math.min(36, Math.max(24, previewDialog.clientHeight * .035));
+  // Center the card in the clear area above the measured controls, including safe-area spacing.
+  const availableBottom = Math.min(previewDialog.clientHeight - padding, controls.top - bounds.top - gap);
+  const maxHeight = Math.max(frameHeight + 1, availableBottom - padding);
+  const maxWidth = Math.min(previewDialog.clientWidth - padding * 2, 1440);
+  const imageWidth = Math.max(1, Math.min(maxWidth - frameWidth, (maxHeight - frameHeight) * ratio));
+  previewCard.style.width = Math.floor(imageWidth + frameWidth) + 'px';
+  previewCard.style.top = (padding + maxHeight / 2) + 'px';
+}
+
+function attachPreview(index) {
+  const card = cards[index];
+  const anchor = document.createComment('preview card position');
+  card.before(anchor);
+  previewHome = { anchor, width: card.style.width, top: card.style.top, tabIndex: card.tabIndex, hidden: card.getAttribute('aria-hidden') };
+  previewCard = card;
+  card.classList.add('is-preview');
+  card.setAttribute('aria-hidden', 'false');
+  card.tabIndex = -1;
+  previewDialog.append(card);
+  fitPreview();
+  previewTitle.textContent = captions[index];
+  previewCount.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
+  const video = card.querySelector('video');
+  if (video) {
+    video.controls = true;
+    if (!document.hidden) video.play().catch(() => {});
+  }
+}
+
+function restorePreviewCard(removeAnchor = true) {
+  if (!previewCard) return;
+  previewCard.classList.add('is-restoring');
+  previewHome.anchor.before(previewCard);
+  previewCard.classList.remove('is-preview');
+  previewCard.style.width = previewHome.width;
+  previewCard.style.top = previewHome.top;
+  previewCard.tabIndex = previewHome.tabIndex;
+  previewCard.setAttribute('aria-hidden', previewHome.hidden);
+  // Commit the stack pose without starting a second CSS transition on return.
+  getComputedStyle(previewCard).transform;
+  previewCard.classList.remove('is-restoring');
+  if (removeAnchor) {
+    const video = previewCard.querySelector('video');
+    if (video) { video.controls = false; video.pause(); }
+    previewHome.anchor.remove();
+    previewCard = null;
+    previewHome = null;
+  }
+}
+
+function previewTransform(pose) {
+  const centered = cardPose(previewCard);
+  return 'translate(-50%, -50%) translate(' + (pose.x - centered.x) + 'px,' + (pose.y - centered.y) + 'px) rotate(' + pose.angle + 'deg) scale(' + (pose.width / centered.width) + ')';
+}
+
+function animatePreview(frames, duration, done) {
+  previewBusy = true;
+  const animation = previewCard.animate(frames, {
+    duration: reducedMotion.matches ? 0 : duration,
+    easing: 'cubic-bezier(.2,.75,.25,1)',
+    fill: 'both',
+  });
+  const finish = () => {
+    animation.cancel();
+    previewBusy = false;
+    done?.();
+    if (previewDialog.open && !previewClosing) fitPreview();
+    if (previewCloseRequested && previewDialog.open && !previewClosing) closePreview();
+  };
+  animation.finished.then(finish, finish);
+}
+
+function openPreview(index) {
+  if (moving || previewDialog.open) return;
+  const origin = cardPose(cards[index]);
+  window.clearTimeout(autoTimer);
+  progress.style.animationPlayState = 'paused';
+  if (cards[index] !== videoCard) demoVideo?.pause();
+  document.body.classList.add('preview-open');
+  previewDialog.classList.remove('is-visible');
+  previewDialog.showModal();
+  attachPreview(index);
+  // Establish the hidden controls before starting their entrance transition.
+  getComputedStyle(previewControls).opacity;
+  previewDialog.classList.add('is-visible');
+  animatePreview([
+    { transform: previewTransform(origin), opacity: 1 },
+    { transform: 'translate(-50%, -50%)', opacity: 1 },
+  ], 420);
+}
+
+function navigatePreview(step) {
+  if (!previewDialog.open || previewBusy || previewClosing) return;
+  restorePreviewCard();
+  active = (active + step + cards.length) % cards.length;
+  render(null, false);
+  attachPreview(active);
+  animatePreview([
+    { transform: 'translate(-50%, -50%) translateX(' + (step * 35) + 'px)', opacity: 0 },
+    { transform: 'translate(-50%, -50%)', opacity: 1 },
+  ], 220);
+}
+
+function closePreview() {
+  if (!previewDialog.open || previewClosing) return;
+  if (previewBusy) { previewCloseRequested = true; return; }
+  previewCloseRequested = false;
+  previewClosing = true;
+  previewDialog.classList.remove('is-visible');
+  // Measure the card in its real stack position, then animate to that exact pose.
+  restorePreviewCard(false);
+  const destination = cardPose(previewCard);
+  previewCard.classList.add('is-preview');
+  previewCard.setAttribute('aria-hidden', 'false');
+  previewCard.tabIndex = -1;
+  previewDialog.append(previewCard);
+  fitPreview();
+  animatePreview([
+    { transform: 'translate(-50%, -50%)', opacity: 1 },
+    { transform: previewTransform(destination), opacity: 1 },
+  ], 340, () => {
+    const returningCard = previewCard;
+    restorePreviewCard();
+    previewDialog.close();
+    returningCard.focus({ preventScroll: true });
+  });
+}
+
+document.querySelector('#preview-close').addEventListener('click', closePreview);
+document.querySelector('#preview-prev').addEventListener('click', () => navigatePreview(-1));
+document.querySelector('#preview-next').addEventListener('click', () => navigatePreview(1));
+previewDialog.addEventListener('cancel', (event) => { event.preventDefault(); closePreview(); });
+previewDialog.addEventListener('click', (event) => {
+  if (event.target === previewDialog) closePreview();
+});
+previewDialog.addEventListener('keydown', (event) => {
+  if (event.target.closest('video')) return;
+  if (event.key === 'ArrowLeft') { event.preventDefault(); navigatePreview(-1); }
+  if (event.key === 'ArrowRight') { event.preventDefault(); navigatePreview(1); }
+});
+previewDialog.addEventListener('close', () => {
+  restorePreviewCard();
+  previewDialog.classList.remove('is-visible');
+  document.body.classList.remove('preview-open');
+  previewClosing = false;
+  previewCloseRequested = false;
+  resumePreviewVideo = false;
+  if (playing && cards[active] === videoCard && !document.hidden) {
+    demoVideo.play().catch(() => {
+      videoPlaybackFailed = true;
+      scheduleAuto();
+    });
+  }
+  scheduleAuto();
+});
+
 cards.forEach((card, index) => {
+  card.setAttribute('aria-haspopup', 'dialog');
+  card.setAttribute('aria-controls', 'preview-dialog');
   card.addEventListener('click', () => {
-    if (index === active && !suppressClick) move(1);
+    if (index === active && !suppressClick) openPreview(index);
   });
 });
 document.querySelector('#gallery-next').addEventListener('click', () => move(1));
@@ -265,13 +493,24 @@ stage.addEventListener('pointerup', (event) => {
 stage.addEventListener('pointercancel', () => { pointerStart = null; });
 window.addEventListener('resize', () => {
   window.cancelAnimationFrame(resizeFrame);
-  resizeFrame = window.requestAnimationFrame(sizeCards);
+  resizeFrame = window.requestAnimationFrame(() => {
+    sizeCards();
+    if (previewDialog.open && !previewBusy) fitPreview();
+  });
 });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     window.clearTimeout(autoTimer);
     progress.style.animationPlayState = 'paused';
+    const previewVideo = previewCard?.querySelector('video');
+    resumePreviewVideo = previewVideo ? !previewVideo.paused : false;
+    previewVideo?.pause();
     demoVideo?.pause();
+    return;
+  }
+  if (previewDialog.open) {
+    if (resumePreviewVideo) previewCard?.querySelector('video')?.play().catch(() => {});
+    resumePreviewVideo = false;
     return;
   }
   if (playing && cards[active] === videoCard) {
@@ -287,3 +526,9 @@ sizeCards();
 render();
 stage.classList.add('is-sized');
 scheduleAuto();
+
+if (document.readyState === 'complete') {
+  loadInstallVersion();
+} else {
+  window.addEventListener('load', loadInstallVersion, { once: true });
+}

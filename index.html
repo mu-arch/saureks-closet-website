@@ -15,8 +15,8 @@
   <link rel="icon" href="assets/addon-logo.png" type="image/png">
   <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/wow-landscape.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=launch-2">
-  <script src="script.js?v=launch-2" defer></script>
+  <link rel="stylesheet" href="styles.css?v=soft-image-edges-2">
+  <script src="script.js?v=preview-spacing-3" defer></script>
   <noscript><style>.photo-stage{opacity:1}.photo-card{width:min(44%,300px)}</style></noscript>
 </head>
 <body>
@@ -32,20 +32,20 @@
         <h1 class="hero-wordmark" id="hero-title"><span class="wordmark-first">Saurek’s</span> <span class="wordmark-second">Closet</span></h1>
         <p class="lede">Transmog your outfit and weapons, change race, see your bags, wear a hat with your hair, and much more!</p>
         <div class="actions">
-          <a class="button button-gold" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer"><svg class="download-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg><span class="button-label">Install</span></a>
+          <a class="button button-gold" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer"><svg class="download-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg><span class="button-label">Install</span><span class="button-version" hidden></span></a>
           <a class="source-link" href="https://github.com/mu-arch/SaureksCloset#installation" target="_blank" rel="noopener noreferrer">Install guide<svg class="link-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
         </div>
       </section>
 
       <section class="gallery" aria-label="Saurek's Closet preview gallery">
         <div class="photo-stage" id="photo-stage">
-          <button class="photo-card" type="button" data-depth="0" aria-label="Show next preview"><video poster="assets/character-style-poster.webp" width="222" height="287" muted playsinline preload="metadata" aria-label="Character appearance in motion"><source src="assets/character-style-demo.mp4" type="video/mp4"><source src="assets/character-style-demo.webm" type="video/webm"></video></button>
-          <button class="photo-card" type="button" data-depth="1" aria-label="Show next preview"><img src="assets/wardrobe.webp" alt="Wardrobe and item appearance search in game" width="1165" height="648" loading="lazy" decoding="async" fetchpriority="low"></button>
-          <button class="photo-card" type="button" data-depth="2" aria-label="Show next preview"><img src="assets/body.webp" alt="Character appearance controls" width="499" height="640" loading="lazy" decoding="async" fetchpriority="low"></button>
-          <button class="photo-card" type="button" data-depth="3" aria-label="Show next preview"><img src="assets/weaponry.webp" alt="Weapon appearance and placement controls" width="499" height="648" loading="lazy" decoding="async" fetchpriority="low"></button>
-          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next preview"><img src="assets/saved-looks.webp" alt="Saved character looks" width="486" height="626" loading="lazy" decoding="async" fetchpriority="low"></button>
-          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next preview"><img src="assets/weapon-display.webp" alt="Weapons displayed on a character's back" width="337" height="468" loading="lazy" decoding="async" fetchpriority="low"></button>
-          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next preview"><img src="assets/appearance-browser.webp" alt="Wardrobe and item appearance browser, alternate view" width="1009" height="657" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="0" aria-label="Enlarge preview"><video poster="assets/character-style-poster.webp" width="222" height="287" muted playsinline preload="metadata" aria-label="Character appearance in motion"><source src="assets/character-style-demo.mp4" type="video/mp4"><source src="assets/character-style-demo.webm" type="video/webm"></video></button>
+          <button class="photo-card" type="button" data-depth="1" aria-label="Enlarge preview"><img src="assets/wardrobe.webp" alt="Wardrobe and item appearance search in game" width="1165" height="648" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="2" aria-label="Enlarge preview"><img src="assets/body.webp" alt="Character appearance controls" width="499" height="640" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="3" aria-label="Enlarge preview"><img src="assets/weaponry.webp" alt="Weapon appearance and placement controls" width="499" height="648" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Enlarge preview"><img src="assets/saved-looks.webp" alt="Saved character looks" width="486" height="626" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Enlarge preview"><img src="assets/weapon-display.webp" alt="Weapons displayed on a character's back" width="337" height="468" loading="lazy" decoding="async" fetchpriority="low"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Enlarge preview"><img src="assets/appearance-browser.webp" alt="Wardrobe and item appearance browser, alternate view" width="1009" height="657" loading="lazy" decoding="async" fetchpriority="low"></button>
         </div>
         <div class="gallery-controls">
           <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Previous preview"><span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 12H4m7-7-7 7 7 7"/></svg></span><span>Previous</span></button>
@@ -59,5 +59,13 @@
 
     <footer class="site-footer wrap"><nav aria-label="Footer"><a href="https://github.com/mu-arch/SaureksCloset" target="_blank" rel="noopener noreferrer">GITHUB<svg class="link-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></a><a href="https://discord.gg/6mfxCdNbM6" target="_blank" rel="noopener noreferrer">DISCORD<svg class="link-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></a></nav><small>Addon code: <a href="https://github.com/mu-arch/SaureksCloset/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">PolyForm Noncommercial 1.0.0</a><br>Original art &amp; assets: <a href="https://github.com/mu-arch/SaureksCloset/blob/main/ASSETS-LICENSE" target="_blank" rel="noopener noreferrer">All rights reserved</a></small></footer>
   </div>
+  <dialog class="lightbox" id="preview-dialog" aria-labelledby="preview-title">
+    <div class="gallery-controls">
+      <button class="gallery-arrow" id="preview-prev" type="button" aria-label="Previous enlarged preview"><span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 12H4m7-7-7 7 7 7"/></svg></span><span>Previous</span></button>
+      <div class="gallery-label"><span id="preview-title" aria-live="polite"></span><span id="preview-count"></span></div>
+      <button class="gallery-arrow" id="preview-next" type="button" aria-label="Next enlarged preview"><span>Next</span><span class="arrow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span></button>
+      <button class="gallery-play lightbox-close" id="preview-close" type="button" aria-label="Close enlarged preview" autofocus><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    </div>
+  </dialog>
 </body>
 </html>

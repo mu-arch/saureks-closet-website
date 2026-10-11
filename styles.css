@@ -3,7 +3,7 @@
 @font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/inter.woff2") format("woff2")}
 :root{--gold:#e6c683;--cream:#f1e7cf;--ink:#10191f}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
 body{margin:0;background:var(--ink);color:var(--cream);font:400 14px/1.6 Inter,Arial,sans-serif}
 button{font:inherit}
 a{color:inherit}
@@ -46,6 +46,9 @@ h1,p{margin:0}
 }
 .download-icon{position:relative;z-index:1;display:block;width:19px;height:19px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #29170b)}
 .button-label{position:relative;z-index:1;text-shadow:0 1px 3px #29170b,0 2px 6px #29170b}
+.button-gold.has-version{gap:8px;padding-inline:16px}
+.button-version{position:relative;z-index:1;display:inline-block;flex:none;max-width:64px;padding:4px 6px;border-radius:5px;background:#fff;color:#62411d;font:600 10px/1.2 Inter,Arial,sans-serif;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:none}
+.button-version[hidden]{display:none}
 .button-gold:hover{transform:translateY(-2px);filter:brightness(1.12)}
 .button-gold:active{transform:translateY(1px);filter:brightness(.96)}
 .source-link{display:inline-flex;align-items:center;min-height:48px;padding-inline:12px;margin-inline:-12px;color:#e8cc91;text-decoration:none;text-transform:uppercase;font:700 12px Cinzel,Georgia,serif;letter-spacing:.06em;text-shadow:0 2px 4px #000}
@@ -54,15 +57,17 @@ h1,p{margin:0}
 .gallery{width:100%;min-width:0;align-self:center}
 .photo-stage{position:relative;width:min(100%,700px);height:clamp(430px,43vw,560px);margin-inline:auto;opacity:0;transition:opacity .2s ease;touch-action:pan-y;perspective:1100px;user-select:none}
 .photo-stage.is-sized{opacity:1}
-.photo-card{position:absolute;left:50%;top:50%;width:72%;height:auto;margin:0;padding:7px;border:1px solid #f6eedc;border-radius:12px;background:#e8dfcb;box-shadow:0 22px 54px #000b,0 2px 9px #0006,inset 0 1px #fffaf0;transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;cursor:pointer;touch-action:pan-y}
-.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:7px}
+.photo-card{position:absolute;isolation:isolate;left:50%;top:50%;width:72%;height:auto;margin:0;padding:12px;border:1px solid transparent;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(0 3px 2px #0007) drop-shadow(0 19px 23px #0009);transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;cursor:pointer;touch-action:pan-y}
+.photo-card::before{content:"";position:absolute;z-index:-1;inset:-1px;background:url("assets/parchment-card.svg") center/100% 100% no-repeat;pointer-events:none}
+.photo-card::after{content:"";position:absolute;z-index:1;inset:-1px;background:linear-gradient(100deg,rgba(44,25,10,.13),transparent 15%,rgba(255,245,210,.075) 35%,transparent 60%,rgba(35,22,12,.13) 92%,rgba(255,237,187,.12));-webkit-mask:url("assets/parchment-card.svg") center/100% 100% no-repeat;mask:url("assets/parchment-card.svg") center/100% 100% no-repeat;pointer-events:none}
+.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:7px;-webkit-mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent),linear-gradient(180deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent),linear-gradient(180deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent);mask-composite:intersect}
 .photo-card[data-depth="0"]{z-index:5;opacity:1;visibility:visible;transform:translate(-50%,-50%) rotate(-2deg) scale(1);pointer-events:auto}
 .photo-card[data-depth="1"]{z-index:4;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(29px,-20px) rotate(4deg) scale(.97);pointer-events:none}
 .photo-card[data-depth="2"]{z-index:3;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(54px,-37px) rotate(7deg) scale(.94);pointer-events:none}
 .photo-card[data-depth="3"]{z-index:2;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(75px,-50px) rotate(10deg) scale(.91);pointer-events:none}
 .photo-card[data-depth="hidden"]{z-index:1;opacity:0;visibility:hidden;transform:translate(-50%,-50%) translate(90px,-60px) rotate(11deg) scale(.88);pointer-events:none;transition:none}
 .photo-card.is-exiting{z-index:6;pointer-events:none;transition:none}
-.photo-card.is-entering{pointer-events:none;transition:none}
+.photo-card.is-entering,.photo-card.is-retreating,.photo-card.is-restoring{pointer-events:none;transition:none}
 
 .gallery-controls{display:grid;grid-template-columns:auto minmax(120px,1fr) auto auto;align-items:center;gap:13px;width:min(100%,610px);margin:0 auto;padding:10px 12px;border-radius:6px;background:linear-gradient(180deg,rgba(47,31,25,.82),rgba(13,12,20,.93)),url("assets/main-texture.webp") center 73%/cover no-repeat,#1b1719;box-shadow:inset 0 1px rgba(238,198,121,.38),inset 0 -2px rgba(5,4,7,.8),0 12px 28px #0009}
 .gallery-arrow,.gallery-play{border:1px solid #ad8549;border-radius:3px;background:linear-gradient(180deg,rgba(181,139,72,.62),rgba(82,54,35,.72) 48%,rgba(29,22,23,.91)),url("assets/main-texture.webp") center 77%/650px auto,#38271e;color:#f8e4af;box-shadow:inset 0 1px rgba(255,228,163,.55),inset 0 -2px rgba(13,7,5,.75),0 3px 0 #151015,0 5px 13px #0008;text-shadow:0 1px 3px #000;cursor:pointer;transition:filter .2s,transform .2s,box-shadow .2s}
@@ -70,10 +75,9 @@ h1,p{margin:0}
 .gallery-arrow:active,.gallery-play:active{transform:translateY(2px);box-shadow:inset 0 1px rgba(255,229,156,.3),inset 0 -1px rgba(13,7,5,.7),0 1px 0 #151015}
 .gallery-arrow{display:grid;grid-template-columns:22px 1fr;align-items:center;justify-items:center;gap:7px;width:126px;min-height:47px;padding:0 12px;text-transform:uppercase;font:700 10px Cinzel,Georgia,serif;letter-spacing:.08em}
 .gallery-arrow>span:not(.arrow-icon){display:flex;align-items:center;justify-content:center;min-height:22px;line-height:1}
-#gallery-next{grid-template-columns:1fr 22px}
+#gallery-next,#preview-next{grid-template-columns:1fr 22px}
 .arrow-icon{display:grid;place-items:center;width:22px;height:22px;line-height:1}
 .arrow-icon svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media(min-width:521px){.arrow-icon svg{transform:translateY(.5px)}}
 .gallery-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;color:#f0e5ca;text-align:center}
 .gallery-label span:first-child{font:600 18px "Cormorant Garamond",Georgia,serif;white-space:nowrap}
 .gallery-label span:last-child{color:#d3bb84;font:600 9px Cinzel,Georgia,serif;white-space:nowrap}
@@ -81,6 +85,15 @@ h1,p{margin:0}
 .gallery-progress{width:min(100%,535px);height:2px;margin:10px auto 0;background:rgba(226,205,162,.21)}
 .gallery-progress span{display:block;width:0;height:100%;background:#edcc84;box-shadow:0 0 7px #e7bf70}
 @keyframes fill-progress{from{width:0}to{width:100%}}
+
+body.preview-open{overflow:hidden}
+.lightbox{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--cream);overflow:hidden}
+.lightbox::backdrop{background:rgba(5,4,8,.84);opacity:0;transition:opacity .34s ease}
+.lightbox.is-visible::backdrop{opacity:1}
+.photo-card.is-preview{z-index:1;opacity:1;visibility:visible;transform:translate(-50%,-50%);pointer-events:auto;transition:none;cursor:default}
+.lightbox .gallery-controls{position:absolute;z-index:2;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(610px,calc(100% - 32px));opacity:0;pointer-events:none;transition:opacity .16s ease}
+.lightbox.is-visible .gallery-controls{opacity:1;pointer-events:auto;transition:opacity .24s ease .08s}
+.lightbox-close svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
 
 .site-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:65px;border-top:1px solid rgba(225,195,133,.25);color:#d2c8b3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 1px 3px #000}
 .site-footer nav{grid-column:1;display:flex;gap:22px;justify-self:start;font-size:12px}
@@ -129,14 +142,13 @@ h1,p{margin:0}
   .source-link{font-size:11px}
   .gallery{margin-top:13px}
   .photo-stage{height:94vw;min-height:340px}
-  .photo-card{border-radius:9px;padding:5px}
-  .photo-card img,.photo-card video{border-radius:5px}
+  .photo-card{padding:9px}
   .gallery-controls{gap:8px;padding:8px}
-  .gallery-arrow,#gallery-next{grid-template-columns:1fr;width:42px;min-height:42px;padding:0}
+  .gallery-arrow,#gallery-next,#preview-next{grid-template-columns:1fr;width:42px;min-height:42px;padding:0}
   .gallery-arrow span:not([aria-hidden="true"]){display:none}
   .gallery-label span:first-child{font-size:16px}
   .gallery-play{width:42px;height:42px}
   .site-footer nav{font-size:11px}
 }
 @media(max-width:365px){.header-meta{font-size:8.4px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.gallery-arrow,.gallery-play,.photo-card,.photo-stage{transition:none}.gallery-progress span,.button-gold::before{animation:none!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.gallery-arrow,.gallery-play,.photo-card,.photo-stage,.lightbox::backdrop,.lightbox .gallery-controls,.lightbox.is-visible .gallery-controls{transition:none}.gallery-progress span,.button-gold::before{animation:none!important}}
