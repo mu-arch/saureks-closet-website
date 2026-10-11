@@ -12,68 +12,142 @@ const captions = [
 ];
 const caption = document.querySelector('#photo-caption');
 const count = document.querySelector('#photo-count');
+const playButton = document.querySelector('#gallery-play');
+const progress = document.querySelector('#gallery-progress-fill');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const slideDelay = 5600;
 let active = 0;
 let moving = false;
+let playing = !reducedMotion.matches;
+let userOverride = false;
+let autoTimer = 0;
 let pointerStart = null;
 let suppressClick = false;
+let hovering = false;
+
+function sizeCards() {
+  const maxWidth = Math.min(stage.clientWidth * .86, 620);
+  const maxHeight = Math.min(stage.clientHeight * .82, 470);
+  cards.forEach((card) => {
+    const image = card.querySelector('img');
+    const ratio = Number(image.getAttribute('width')) / Number(image.getAttribute('height'));
+    const style = getComputedStyle(card);
+    const frame = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+      + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+    const imageWidth = Math.min(maxWidth - frame, (maxHeight - frame) * ratio);
+    card.style.width = Math.round(imageWidth + frame) + 'px';
+  });
+}
 
 function render() {
   cards.forEach((card, index) => {
     const depth = (index - active + cards.length) % cards.length;
     card.dataset.depth = depth < 4 ? String(depth) : 'hidden';
     card.setAttribute('aria-hidden', String(depth !== 0));
+    card.tabIndex = depth === 0 ? 0 : -1;
+    if (depth === 0) card.setAttribute('aria-label', 'Show next screenshot. Current image: ' + captions[index]);
   });
   caption.textContent = captions[active];
   count.textContent = String(active + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
+}
+
+function updatePlayButton() {
+  playButton.setAttribute('aria-pressed', String(playing));
+  playButton.setAttribute('aria-label', playing ? 'Pause slideshow' : 'Play slideshow');
+  playButton.querySelector('span').textContent = playing ? 'Ⅱ' : '▶';
+}
+
+function scheduleAuto() {
+  window.clearTimeout(autoTimer);
+  progress.style.animation = 'none';
+  if (!playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
+  void progress.offsetWidth;
+  progress.style.animation = 'fill-progress ' + slideDelay + 'ms linear forwards';
+  progress.style.animationPlayState = 'running';
+  autoTimer = window.setTimeout(() => move(1), slideDelay);
+}
+
+function finishMove(nextIndex, animation) {
+  active = nextIndex;
+  render();
+  if (animation) animation.cancel();
+  window.setTimeout(() => {
+    moving = false;
+    gallery.setAttribute('aria-busy', 'false');
+    scheduleAuto();
+  }, reducedMotion.matches ? 0 : 550);
 }
 
 function move(step) {
   if (moving) return;
   moving = true;
   gallery.setAttribute('aria-busy', 'true');
+  window.clearTimeout(autoTimer);
+  progress.style.animation = 'none';
   const oldCard = cards[active];
   const nextIndex = (active + step + cards.length) % cards.length;
 
   if (reducedMotion.matches) {
-    active = nextIndex;
-    render();
-    moving = false;
-    gallery.setAttribute('aria-busy', 'false');
+    finishMove(nextIndex, null);
     return;
   }
 
-  // Bring the previous photo into the visible stack before sliding back.
   if (step < 0) cards[nextIndex].dataset.depth = '1';
-
   const direction = step > 0 ? 1 : -1;
-  const distance = Math.min(stage.clientWidth * .7, 430);
+  const distance = Math.min(stage.clientWidth * .62, 410);
   const animation = oldCard.animate([
     { transform: getComputedStyle(oldCard).transform, opacity: 1 },
-    { transform: 'translate3d(' + (direction * distance) + 'px, 30px, 0) rotate(' + (direction * 14) + 'deg) scale(.93)', opacity: .15 },
+    { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 17) + 'deg) scale(.9)', opacity: .1 },
   ], {
-    duration: 330,
-    easing: 'cubic-bezier(.22,.7,.25,1)',
+    duration: 410,
+    easing: 'cubic-bezier(.2,.72,.25,1)',
     fill: 'forwards',
   });
 
-  animation.finished.then(() => {
-    active = nextIndex;
-    render();
-    animation.cancel();
-    window.setTimeout(() => { moving = false; gallery.setAttribute('aria-busy', 'false'); }, 510);
-  }).catch(() => { moving = false; gallery.setAttribute('aria-busy', 'false'); });
+  animation.finished.then(() => finishMove(nextIndex, animation)).catch(() => {
+    moving = false;
+    gallery.setAttribute('aria-busy', 'false');
+    scheduleAuto();
+  });
 }
 
-document.querySelector('#photo-hit').addEventListener('click', () => {
-  if (!suppressClick) move(1);
+cards.forEach((card, index) => {
+  card.addEventListener('click', () => {
+    if (index === active && !suppressClick) move(1);
+  });
 });
 document.querySelector('#gallery-next').addEventListener('click', () => move(1));
 document.querySelector('#gallery-prev').addEventListener('click', () => move(-1));
+playButton.addEventListener('click', () => {
+  playing = !playing;
+  userOverride = playing;
+  updatePlayButton();
+  scheduleAuto();
+});
 
 gallery.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') { event.preventDefault(); move(1); }
   if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1); }
+});
+gallery.addEventListener('mouseenter', () => {
+  hovering = true;
+  if (!userOverride) {
+    window.clearTimeout(autoTimer);
+    progress.style.animationPlayState = 'paused';
+  }
+});
+gallery.addEventListener('mouseleave', () => {
+  hovering = false;
+  scheduleAuto();
+});
+gallery.addEventListener('focusin', () => {
+  if (!userOverride) {
+    window.clearTimeout(autoTimer);
+    progress.style.animationPlayState = 'paused';
+  }
+});
+gallery.addEventListener('focusout', () => {
+  window.setTimeout(scheduleAuto, 0);
 });
 
 stage.addEventListener('pointerdown', (event) => {
@@ -90,5 +164,9 @@ stage.addEventListener('pointerup', (event) => {
   window.setTimeout(() => { suppressClick = false; }, 100);
 });
 stage.addEventListener('pointercancel', () => { pointerStart = null; });
+window.addEventListener('resize', sizeCards);
 
+sizeCards();
 render();
+updatePlayButton();
+scheduleAuto();

@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10191f">
   <meta name="description" content="Saurek's Closet is an appearance wardrobe for World of Warcraft 1.12.1. Browse, preview, and save your look.">
-  <meta property="og:title" content="Saurek's Closet — Your legend. Your look.">
+  <meta property="og:title" content="Saurek's Closet — Your character, your look.">
   <meta property="og:description" content="An appearance wardrobe for World of Warcraft 1.12.1.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mu-arch.github.io/saureks-closet-website/assets/appearance-browser.png">
-  <title>Saurek's Closet — Your legend. Your look.</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <title>Saurek's Closet — Your character, your look.</title>
+  <link rel="icon" href="assets/addon-logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=stack-2">
-  <script src="script.js?v=stack-1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=room-2">
+  <script src="script.js?v=room-2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="page" id="top">
     <header class="site-header wrap">
-      <a class="brand" href="#top" aria-label="Saurek's Closet, home"><span class="brand-sigil" aria-hidden="true">✦</span><span>Saurek’s <strong>Closet</strong></span></a>
+      <a class="brand" href="#top" aria-label="Saurek's Closet, home"><img src="assets/addon-logo.png" alt="" width="64" height="64"><span>Saurek’s <strong>Closet</strong></span></a>
       <span class="header-meta">WORLD OF WARCRAFT <b>✦</b> 1.12.1</span>
     </header>
 
@@ -29,44 +29,35 @@
       <section class="copy" aria-labelledby="hero-title">
         <p class="kicker">THE WARDROBE IS OPEN</p>
         <h1 id="hero-title">Saurek’s<br><span>Closet</span></h1>
-        <p class="tagline">Your legend. Your look.</p>
+        <p class="tagline">Your character, your look.</p>
         <p class="lede">Preview appearances, shape your character, and save looks. Your gear and stats stay the same.</p>
         <div class="actions">
           <a class="button button-gold" href="https://github.com/mu-arch/SaureksCloset/releases/latest" target="_blank" rel="noopener noreferrer">Download the addon <span aria-hidden="true">↗</span></a>
-          <a class="source-link" href="https://github.com/mu-arch/SaureksCloset" target="_blank" rel="noopener noreferrer">View source ↗</a>
-        </div>
-        <div class="quickstart">
-          <p class="quickstart-title">QUICK START <span>WINDOWS · BUILD 5875</span></p>
-          <ol>
-            <li><b>01</b> Put <code>SaureksCloset</code> in <code>Interface/AddOns/</code>.</li>
-            <li><b>02</b> Put <code>SaureksCloset.dll</code> beside <code>WoW.exe</code>; list it after <code>VanillaHelpers.dll</code> in <code>dlls.txt</code>.</li>
-            <li><b>03</b> Launch with VanillaFixes, enable the addon, then type <code>/closet</code>.</li>
-          </ol>
-          <p class="requirements">Requires VanillaHelpers.dll. <a href="https://github.com/mu-arch/SaureksCloset#installation" target="_blank" rel="noopener noreferrer">Full guide ↗</a></p>
+          <a class="source-link" href="https://github.com/mu-arch/SaureksCloset#installation" target="_blank" rel="noopener noreferrer">Install guide ↗</a>
         </div>
       </section>
 
       <section class="gallery" aria-label="Saurek's Closet screenshot gallery">
         <div class="photo-stage" id="photo-stage">
-          <figure class="photo-card" data-depth="0" aria-hidden="false"><div class="photo-image"><img src="assets/wardrobe.png" alt="Wardrobe and item appearance search in game" width="1165" height="648"></div></figure>
-          <figure class="photo-card" data-depth="1" aria-hidden="true"><div class="photo-image"><img src="assets/body.png" alt="Character appearance controls" width="499" height="640"></div></figure>
-          <figure class="photo-card" data-depth="2" aria-hidden="true"><div class="photo-image"><img src="assets/weaponry.png" alt="Weapon appearance and placement controls" width="499" height="648"></div></figure>
-          <figure class="photo-card" data-depth="3" aria-hidden="true"><div class="photo-image"><img src="assets/saved-looks.png" alt="Saved character looks" width="486" height="626"></div></figure>
-          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/weapon-display.png" alt="Weapons displayed on a character's back" width="337" height="468"></div></figure>
-          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/bags.png" alt="Visible bags on a character" width="179" height="285"></div></figure>
-          <figure class="photo-card" data-depth="hidden" aria-hidden="true"><div class="photo-image"><img src="assets/appearance-browser.png" alt="Wardrobe and item appearance browser, alternate view" width="1009" height="657"></div></figure>
-          <button class="photo-hit" id="photo-hit" type="button" aria-label="Show next screenshot"></button>
+          <button class="photo-card" type="button" data-depth="0" aria-label="Show next screenshot" style="--ratio:1.798"><img src="assets/wardrobe.png" alt="Wardrobe and item appearance search in game" width="1165" height="648"></button>
+          <button class="photo-card" type="button" data-depth="1" aria-label="Show next screenshot" style="--ratio:.780"><img src="assets/body.png" alt="Character appearance controls" width="499" height="640"></button>
+          <button class="photo-card" type="button" data-depth="2" aria-label="Show next screenshot" style="--ratio:.770"><img src="assets/weaponry.png" alt="Weapon appearance and placement controls" width="499" height="648"></button>
+          <button class="photo-card" type="button" data-depth="3" aria-label="Show next screenshot" style="--ratio:.776"><img src="assets/saved-looks.png" alt="Saved character looks" width="486" height="626"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next screenshot" style="--ratio:.720"><img src="assets/weapon-display.png" alt="Weapons displayed on a character's back" width="337" height="468"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next screenshot" style="--ratio:.628"><img src="assets/bags.png" alt="Visible bags on a character" width="179" height="285"></button>
+          <button class="photo-card" type="button" data-depth="hidden" aria-label="Show next screenshot" style="--ratio:1.536"><img src="assets/appearance-browser.png" alt="Wardrobe and item appearance browser, alternate view" width="1009" height="657"></button>
         </div>
         <div class="gallery-controls">
-          <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Previous screenshot">←</button>
+          <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Previous screenshot"><span aria-hidden="true">←</span><span>Previous</span></button>
           <div class="gallery-label"><span id="photo-caption" aria-live="polite">The wardrobe</span><span id="photo-count">01 / 07</span></div>
-          <button class="gallery-arrow" id="gallery-next" type="button" aria-label="Next screenshot">→</button>
+          <button class="gallery-arrow" id="gallery-next" type="button" aria-label="Next screenshot"><span>Next</span><span aria-hidden="true">→</span></button>
+          <button class="gallery-play" id="gallery-play" type="button" aria-label="Pause slideshow" aria-pressed="true"><span aria-hidden="true">Ⅱ</span></button>
         </div>
-        <p class="gallery-hint">CLICK THE PHOTO OR USE THE ARROWS</p>
+        <div class="gallery-progress" aria-hidden="true"><span id="gallery-progress-fill"></span></div>
       </section>
     </main>
 
-    <footer class="site-footer wrap"><span>FAN MADE FOR WORLD OF WARCRAFT 1.12.1</span><a href="https://discord.gg/6mfxCdNbM6" target="_blank" rel="noopener noreferrer">COMMUNITY ↗</a><small>World of Warcraft belongs to Blizzard Entertainment. Addon screenshots belong to the Saurek’s Closet project.</small></footer>
+    <footer class="site-footer wrap"><span>FAN MADE FOR WORLD OF WARCRAFT 1.12.1</span><div><a href="https://github.com/mu-arch/SaureksCloset" target="_blank" rel="noopener noreferrer">SOURCE ↗</a><a href="https://discord.gg/6mfxCdNbM6" target="_blank" rel="noopener noreferrer">COMMUNITY ↗</a></div><small>World of Warcraft belongs to Blizzard Entertainment. Addon screenshots belong to the Saurek’s Closet project.</small></footer>
   </div>
 </body>
 </html>
