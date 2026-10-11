@@ -55,12 +55,13 @@ h1,p{margin:0}
 .source-link:hover,.site-footer a:hover{color:#fff0c9}
 
 .gallery{width:100%;min-width:0;align-self:center}
-.photo-stage{position:relative;width:min(100%,700px);height:clamp(430px,43vw,560px);margin-inline:auto;opacity:0;transition:opacity .2s ease;touch-action:pan-y;perspective:1100px;user-select:none}
+.photo-stage{position:relative;width:min(100%,700px);height:clamp(430px,43vw,560px);margin-inline:auto;opacity:0;transition:opacity .2s ease;touch-action:pan-y;user-select:none}
 .photo-stage.is-sized{opacity:1}
-.photo-card{position:absolute;isolation:isolate;left:50%;top:50%;width:72%;height:auto;margin:0;padding:12px;border:1px solid transparent;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(0 3px 2px #0007) drop-shadow(0 19px 23px #0009);transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;cursor:pointer;touch-action:pan-y}
-.photo-card::before{content:"";position:absolute;z-index:-1;inset:-1px;background:url("assets/parchment-card.svg") center/100% 100% no-repeat;pointer-events:none}
-.photo-card::after{content:"";position:absolute;z-index:1;inset:-1px;background:linear-gradient(100deg,rgba(44,25,10,.13),transparent 15%,rgba(255,245,210,.075) 35%,transparent 60%,rgba(35,22,12,.13) 92%,rgba(255,237,187,.12));-webkit-mask:url("assets/parchment-card.svg") center/100% 100% no-repeat;mask:url("assets/parchment-card.svg") center/100% 100% no-repeat;pointer-events:none}
-.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:7px;-webkit-mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent),linear-gradient(180deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent),linear-gradient(180deg,transparent,rgba(0,0,0,.4) 3px,rgba(0,0,0,.85) 7px,#000 12px,#000 calc(100% - 12px),rgba(0,0,0,.85) calc(100% - 7px),rgba(0,0,0,.4) calc(100% - 3px),transparent);mask-composite:intersect}
+.photo-card{--card-padding:16px;position:absolute;isolation:isolate;left:50%;top:50%;width:72%;height:auto;margin:0;padding:var(--card-padding);border:1px solid transparent;border-radius:0;background:none;box-shadow:none;transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;cursor:pointer;touch-action:pan-y}
+.photo-card::before{content:"";position:absolute;z-index:-1;inset:4px;border-radius:4px;box-shadow:0 3px 3px #0006,0 19px 30px #0009;pointer-events:none}
+/* One continuous pre-rendered parchment frame, from the torn outer edge to the feathered inner edge. */
+.photo-card::after{content:"";position:absolute;z-index:1;inset:-1px;border:calc(var(--card-padding) + 12px) solid transparent;border-image:url("assets/parchment-frame.png") 64 / calc(var(--card-padding) + 12px) / 0 stretch;pointer-events:none}
+.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:0}
 .photo-card[data-depth="0"]{z-index:5;opacity:1;visibility:visible;transform:translate(-50%,-50%) rotate(-2deg) scale(1);pointer-events:auto}
 .photo-card[data-depth="1"]{z-index:4;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(29px,-20px) rotate(4deg) scale(.97);pointer-events:none}
 .photo-card[data-depth="2"]{z-index:3;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(54px,-37px) rotate(7deg) scale(.94);pointer-events:none}
@@ -142,7 +143,7 @@ body.preview-open{overflow:hidden}
   .source-link{font-size:11px}
   .gallery{margin-top:13px}
   .photo-stage{height:94vw;min-height:340px}
-  .photo-card{padding:9px}
+  .photo-card{--card-padding:12px}
   .gallery-controls{gap:8px;padding:8px}
   .gallery-arrow,#gallery-next,#preview-next{grid-template-columns:1fr;width:42px;min-height:42px;padding:0}
   .gallery-arrow span:not([aria-hidden="true"]){display:none}

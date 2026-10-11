@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="paper">
+      <stop stop-color="#c6a773"/>
+      <stop offset=".35" stop-color="#e6d09e"/>
+      <stop offset=".7" stop-color="#ddc18b"/>
+      <stop offset="1" stop-color="#c9ac79"/>
+    </linearGradient>
+    <linearGradient id="fade-x">
+      <stop stop-color="#fff"/><stop offset=".07" stop-color="#fff"/>
+      <stop offset=".16" stop-color="#fff" stop-opacity=".65"/>
+      <stop offset=".25" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".75" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".84" stop-color="#fff" stop-opacity=".65"/>
+      <stop offset=".93" stop-color="#fff"/><stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="fade-y" x1="0" y1="0" x2="0" y2="1" href="#fade-x"/>
+    <mask id="fade"><rect width="128" height="128" fill="#000"/><rect width="128" height="128" fill="url(#fade-x)"/><rect width="128" height="128" fill="url(#fade-y)"/></mask>
+    <path id="rim" fill-rule="evenodd" d="M4 4 13 3 15 5 17 3Q34 5 49 3L57 4 59 2 61 4Q84 2 105 4L120 3 124 6 123 20 126 23 124 26Q126 44 124 62L126 73 123 76 125 79Q123 97 125 114L122 122 113 125 108 123Q86 126 66 124L53 125 51 122 48 125Q28 122 12 125L4 121 5 108 2 105 4 101Q2 79 4 59L2 46 5 42 3 39Q5 23 3 10Z M27 23Q31 20 35 23L40 20 44 24 47 19 51 22 56 21 60 25 64 22 69 24 74 20 78 23 83 19 87 23 92 22 97 25Q102 23 105 28L104 34 108 39 104 43 107 49 104 54 108 59 105 64 107 69 102 74 105 80 104 85 108 90 104 95Q108 102 101 105L95 104 91 108 86 104 81 106 75 102 70 106 65 104 59 108 54 103 49 105 43 102 38 106 32 103Q24 107 22 100L24 95 20 90 24 86 21 80 25 75 22 70 24 64 20 59 23 54 21 49 25 43 21 38 24 33Q21 27 27 23Z"/>
+    <clipPath id="rim-clip"><use href="#rim" clip-rule="evenodd"/></clipPath>
+    <filter id="soft" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="2.2"/></filter>
+    <pattern id="fibres" width="19" height="23" patternUnits="userSpaceOnUse">
+      <path d="m2 6 4-1m6 7 3 1M7 20l4-2" stroke="#77512d" stroke-width=".55" opacity=".18"/>
+      <path d="m9 4 3 1m3 12 3-1M2 17l2 1" stroke="#fff1c7" stroke-width=".8" opacity=".3"/>
+    </pattern>
+  </defs>
+  <g mask="url(#fade)">
+    <use href="#rim" fill="url(#paper)" filter="url(#soft)" opacity=".7"/>
+    <use href="#rim" fill="url(#paper)"/>
+    <rect width="128" height="128" fill="url(#fibres)" clip-path="url(#rim-clip)"/>
+    <path d="m44 24 2-6m13 7 3-4m41 35 6 2m-7 15 4 1m-65 30 1-5M24 44l-6-2m6 37-5 3m64-61-1 5" fill="none" stroke="#765333" stroke-width=".7" opacity=".4"/>
+    <path d="m26 25 5-3m63 4 7 1m-1 77-6 1m-67-7-2-6" fill="none" stroke="#ffedbd" stroke-width="1.2" opacity=".55"/>
+  </g>
+</svg>
