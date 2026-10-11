@@ -71,11 +71,21 @@ function finishMove(nextIndex, animation) {
   active = nextIndex;
   render();
   if (animation) animation.cancel();
+  if (!reducedMotion.matches) {
+    const incoming = cards[active];
+    incoming.animate([
+      { transform: 'translate(-50%, -50%) translateY(18px) rotate(-7deg) scale(.83)', opacity: .25 },
+      { transform: 'translate(-50%, -50%) rotate(-2deg) scale(1)', opacity: 1 },
+    ], {
+      duration: 460,
+      easing: 'cubic-bezier(.16,.72,.24,1)',
+    });
+  }
   window.setTimeout(() => {
     moving = false;
     gallery.setAttribute('aria-busy', 'false');
     scheduleAuto();
-  }, reducedMotion.matches ? 0 : 550);
+  }, reducedMotion.matches ? 0 : 500);
 }
 
 function move(step) {
@@ -94,13 +104,13 @@ function move(step) {
 
   if (step < 0) cards[nextIndex].dataset.depth = '1';
   const direction = step > 0 ? 1 : -1;
-  const distance = Math.min(stage.clientWidth * .62, 410);
+  const distance = Math.min(stage.clientWidth * .38, 250);
   const animation = oldCard.animate([
     { transform: getComputedStyle(oldCard).transform, opacity: 1 },
-    { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 17) + 'deg) scale(.9)', opacity: .1 },
+    { transform: 'translate(-50%, -50%) translateX(' + (direction * distance) + 'px) rotate(' + (direction * 12) + 'deg) scale(.62)', opacity: 0 },
   ], {
-    duration: 410,
-    easing: 'cubic-bezier(.2,.72,.25,1)',
+    duration: 460,
+    easing: 'cubic-bezier(.22,.64,.24,1)',
     fill: 'forwards',
   });
 

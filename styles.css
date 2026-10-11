@@ -46,23 +46,24 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
 .photo-card[data-depth="3"]{z-index:2;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(75px,-50px) rotate(10deg) scale(.91);pointer-events:none}
 .photo-card[data-depth="hidden"]{z-index:1;opacity:0;visibility:hidden;transform:translate(-50%,-50%) translate(90px,-60px) rotate(11deg) scale(.88);pointer-events:none;transition:none}
 
-.gallery-controls{display:grid;grid-template-columns:auto minmax(120px,1fr) auto auto;align-items:center;gap:10px;width:min(100%,575px);margin:0 auto;padding:7px;border:1px solid rgba(221,185,115,.42);border-radius:12px;background:rgba(8,14,19,.76);box-shadow:0 8px 28px #0006;backdrop-filter:blur(8px)}
-.gallery-arrow,.gallery-play{border:1px solid rgba(232,201,143,.44);border-radius:8px;background:linear-gradient(180deg,rgba(85,71,50,.53),rgba(30,31,30,.75));color:#f4ddaa;cursor:pointer;transition:background .2s,transform .2s}
-.gallery-arrow:hover,.gallery-play:hover{background:rgba(154,114,53,.63);transform:translateY(-1px)}
-.gallery-arrow{display:flex;align-items:center;gap:9px;min-height:43px;padding:0 12px;text-transform:uppercase;font:600 10px Cinzel,Georgia,serif;letter-spacing:.07em}
-.gallery-arrow span[aria-hidden="true"]{font-size:18px}
+.gallery-controls{display:grid;grid-template-columns:auto minmax(120px,1fr) auto auto;align-items:center;gap:13px;width:min(100%,575px);margin:0 auto;padding:8px 0;background:linear-gradient(90deg,transparent,rgba(8,12,17,.65) 12% 88%,transparent)}
+.gallery-arrow,.gallery-play{border:1px solid #a57a38;border-radius:4px;background:linear-gradient(180deg,rgba(170,116,55,.68),rgba(45,27,17,.87)),repeating-linear-gradient(100deg,transparent 0 6px,rgba(0,0,0,.24) 7px 8px,transparent 9px 15px),url("assets/atelier-room.webp") center 82%/650px auto,#38271e;color:#f8e4af;box-shadow:inset 0 2px rgba(255,229,156,.38),inset 0 -3px rgba(13,7,5,.67),0 3px 0 #16100c,0 6px 15px #0008;text-shadow:0 1px 3px #000;cursor:pointer;transition:filter .2s,transform .2s,box-shadow .2s}
+.gallery-arrow:hover,.gallery-play:hover{filter:brightness(1.26);transform:translateY(-2px);box-shadow:inset 0 2px rgba(255,236,175,.55),inset 0 -3px rgba(13,7,5,.67),0 5px 0 #16100c,0 0 19px rgba(239,183,83,.52)}
+.gallery-arrow:active,.gallery-play:active{transform:translateY(2px);box-shadow:inset 0 2px rgba(255,229,156,.27),inset 0 -2px rgba(13,7,5,.67),0 1px 0 #16100c}
+.gallery-arrow{display:flex;align-items:center;gap:9px;min-height:47px;padding:0 15px;text-transform:uppercase;font:700 10px Cinzel,Georgia,serif;letter-spacing:.08em}
+.gallery-arrow span[aria-hidden="true"]{font-size:21px}
 .gallery-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;color:#f0e5ca;text-align:center}
 .gallery-label span:first-child{font:600 18px "Cormorant Garamond",Georgia,serif;white-space:nowrap}
 .gallery-label span:last-child{color:#d3bb84;font:600 9px Cinzel,Georgia,serif;white-space:nowrap}
-.gallery-play{display:grid;place-items:center;width:43px;height:43px;font-size:19px}
+.gallery-play{display:grid;place-items:center;width:47px;height:47px;font-size:19px}
 .gallery-progress{width:min(100%,535px);height:2px;margin:10px auto 0;background:rgba(226,205,162,.21)}
 .gallery-progress span{display:block;width:0;height:100%;background:#edcc84;box-shadow:0 0 7px #e7bf70}
 @keyframes fill-progress{from{width:0}to{width:100%}}
 
-.site-footer{display:flex;align-items:center;gap:24px;min-height:58px;border-top:1px solid rgba(225,195,133,.25);color:#d2c8b3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 1px 3px #000}
-.site-footer>div{display:flex;gap:18px;margin-left:auto}
+.site-footer{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;min-height:65px;border-top:1px solid rgba(225,195,133,.25);color:#d2c8b3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 1px 3px #000}
+.site-footer nav{grid-column:2;display:flex;gap:22px;justify-self:center}
 .site-footer a{color:#e0c78f;text-decoration:none}
-.site-footer small{max-width:440px;color:#c1c3b8;font:400 9px/1.45 Inter,Arial,sans-serif;letter-spacing:0}
+.site-footer small{grid-column:3;justify-self:end;max-width:435px;color:#c1c3b8;text-align:right;font:400 10px/1.55 Inter,Arial,sans-serif;letter-spacing:0}
 
 @media(max-width:1050px){
   .wrap{width:calc(100% - 48px)}
@@ -76,8 +77,9 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
   .copy{max-width:650px}
   .photo-stage{height:min(92vw,520px)}
   .gallery{margin-top:18px}
-  .site-footer{flex-wrap:wrap;gap:7px 20px;padding-block:16px}
-  .site-footer small{width:100%;max-width:none}
+  .site-footer{grid-template-columns:1fr;gap:9px;padding-block:17px}
+  .site-footer nav,.site-footer small{grid-column:1;justify-self:center;text-align:center}
+  .site-footer small{max-width:none}
 }
 @media(max-width:520px){
   .wrap{width:calc(100% - 34px)}
@@ -98,14 +100,14 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
   .photo-stage{height:94vw;min-height:340px}
   .photo-card{border-radius:9px;padding:5px}
   .photo-card img{border-radius:5px}
-  .gallery-controls{gap:5px;padding:5px;border-radius:9px}
-  .gallery-arrow{min-height:39px;padding:0 9px}
+  .gallery-controls{gap:8px;padding:5px 0}
+  .gallery-arrow{min-height:42px;padding:0 11px}
   .gallery-arrow span:not(:first-child){display:none}
   #gallery-next span:first-child{display:none}
   #gallery-next span:last-child{display:block}
   .gallery-arrow span[aria-hidden="true"]{font-size:20px}
   .gallery-label span:first-child{font-size:16px}
-  .gallery-play{width:39px;height:39px}
+  .gallery-play{width:42px;height:42px}
   .site-footer{font-size:8px}
 }
 @media(max-width:365px){.brand{font-size:13px}.header-meta{font-size:7px}}
