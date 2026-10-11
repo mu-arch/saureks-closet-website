@@ -154,6 +154,26 @@ function scheduleAuto() {
   autoTimer = window.setTimeout(() => move(1), slideDelay);
 }
 
+function fadeBackCard(card) {
+  // Keep the rear card at its current pose while render moves it to hidden.
+  // The visibility override lasts only until this fade finishes.
+  const transform = getComputedStyle(card).transform;
+  card.classList.add('is-fading-back');
+  const fade = card.animate([
+    { transform, opacity: 1 },
+    { transform, opacity: 0 },
+  ], {
+    duration: reducedMotion.matches ? 140 : 240,
+    easing: 'ease-out',
+    fill: 'both',
+  });
+  const finishFade = () => {
+    card.classList.remove('is-fading-back');
+    fade.cancel();
+  };
+  fade.finished.then(finishFade, finishFade);
+}
+
 function finishMove(oldCard, animation) {
   const oldIndex = cards.indexOf(oldCard);
   const depth = (oldIndex - active + cards.length) % cards.length;
@@ -182,6 +202,7 @@ function move(step) {
   const distance = Math.min(stage.clientWidth * .38, 250);
   const startTransform = getComputedStyle(oldCard).transform;
   const goingBack = step < 0;
+  if (goingBack) fadeBackCard(cards[(active + 3) % cards.length]);
   oldCard.classList.add(goingBack ? 'is-retreating' : 'is-exiting');
   // Previous returns the current card directly to the second stack position.
   // Keep its final CSS transform underneath the animation so cleanup cannot pop it back in.

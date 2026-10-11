@@ -84,6 +84,7 @@ h1,p{margin:0}
 .photo-card[data-depth="2"]{z-index:3;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(54px,-37px) rotate(7deg) scale(.94);pointer-events:none}
 .photo-card[data-depth="3"]{z-index:2;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(75px,-50px) rotate(10deg) scale(.91);pointer-events:none}
 .photo-card[data-depth="hidden"]{z-index:1;opacity:0;visibility:hidden;transform:translate(-50%,-50%) translate(90px,-60px) rotate(11deg) scale(.88);pointer-events:none;transition:none}
+.photo-card.is-fading-back{z-index:1;visibility:visible;pointer-events:none;transition:none}
 .photo-card.is-exiting{z-index:6;pointer-events:none;transition:none}
 .photo-card.is-entering,.photo-card.is-retreating,.photo-card.is-restoring{pointer-events:none;transition:none}
 
