@@ -59,9 +59,19 @@ h1,p{margin:0}
 .photo-stage.is-sized{opacity:1}
 .photo-card{--card-padding:16px;position:absolute;isolation:isolate;left:50%;top:50%;width:72%;height:auto;margin:0;padding:var(--card-padding);border:1px solid transparent;border-radius:0;-webkit-appearance:none;appearance:none;background:none;box-shadow:none;transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;cursor:pointer;touch-action:pan-y}
 .photo-card::before{content:"";position:absolute;z-index:-1;inset:4px;border-radius:4px;box-shadow:0 3px 3px #0006,0 19px 30px #0009;pointer-events:none}
-/* One continuous pre-rendered parchment frame, from the torn outer edge to the feathered inner edge. */
-.photo-card::after{content:"";position:absolute;z-index:1;inset:-1px;border:28px solid transparent;border-image-source:url("assets/parchment-frame.png");border-image-slice:64;border-image-width:28px;border-image-repeat:stretch;pointer-events:none}
-.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:0}
+/* The same raster frame, split into eight background tiles. A real overlay layer
+   keeps the parchment above inline video without border-image or media effects. */
+.parchment-frame{position:absolute;z-index:1;inset:-1px;display:grid;grid-template-columns:28px minmax(0,1fr) 28px;grid-template-rows:28px minmax(0,1fr) 28px;pointer-events:none;transform:translateZ(0)}
+.parchment-frame>span{min-width:0;min-height:0;background-image:url("assets/parchment-frame.png");background-repeat:no-repeat;background-size:400% 400%}
+.parchment-frame>span:nth-child(1){grid-area:1/1;background-position:left top}
+.parchment-frame>span:nth-child(2){grid-area:1/2;background-size:200% 400%;background-position:center top}
+.parchment-frame>span:nth-child(3){grid-area:1/3;background-position:right top}
+.parchment-frame>span:nth-child(4){grid-area:2/1;background-size:400% 200%;background-position:left center}
+.parchment-frame>span:nth-child(5){grid-area:2/3;background-size:400% 200%;background-position:right center}
+.parchment-frame>span:nth-child(6){grid-area:3/1;background-position:left bottom}
+.parchment-frame>span:nth-child(7){grid-area:3/2;background-size:200% 400%;background-position:center bottom}
+.parchment-frame>span:nth-child(8){grid-area:3/3;background-position:right bottom}
+.photo-card img,.photo-card video{position:relative;z-index:0;display:block;width:100%;height:auto;border-radius:0}
 .photo-card[data-depth="0"]{z-index:5;opacity:1;visibility:visible;transform:translate(-50%,-50%) rotate(-2deg) scale(1);pointer-events:auto}
 .photo-card[data-depth="1"]{z-index:4;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(29px,-20px) rotate(4deg) scale(.97);pointer-events:none}
 .photo-card[data-depth="2"]{z-index:3;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(54px,-37px) rotate(7deg) scale(.94);pointer-events:none}
@@ -144,7 +154,7 @@ body.preview-open{overflow:hidden}
   .gallery{margin-top:13px}
   .photo-stage{height:94vw;min-height:340px}
   .photo-card{--card-padding:12px}
-  .photo-card::after{border-width:24px;border-image-width:24px}
+  .parchment-frame{grid-template-columns:24px minmax(0,1fr) 24px;grid-template-rows:24px minmax(0,1fr) 24px}
   .gallery-controls{gap:8px;padding:8px}
   .gallery-arrow,#gallery-next,#preview-next{grid-template-columns:1fr;width:42px;min-height:42px;padding:0}
   .gallery-arrow span:not([aria-hidden="true"]){display:none}
