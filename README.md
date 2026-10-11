@@ -14,4 +14,4 @@ Publish the root of the `main` branch with GitHub Pages. No build step or secret
 
 The addon information and screenshots are drawn from the official Saurek's Closet project. Download links point to its latest release so this site does not mirror executable files. The screenshots in `assets/` retain the addon project's separate [artwork and assets license](https://github.com/mu-arch/SaureksCloset/blob/main/ASSETS-LICENSE); they are not included in any license for the website code. World of Warcraft imagery belongs to Blizzard Entertainment.
 
-The background is converted from the user's `Main.blp` addon texture, and the logo is converted from the supplied addon artwork. The gallery contains seven distinct screenshots already published by the addon project.
+The room background is converted from user-supplied artwork. The gallery buttons use a converted `Main.blp` addon texture, and the logo and decorative rim are from user-supplied artwork. The gallery contains six screenshots already published by the addon project and one user-supplied gameplay clip.

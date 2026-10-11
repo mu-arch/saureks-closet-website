@@ -1,13 +1,15 @@
 const gallery = document.querySelector('.gallery');
 const stage = document.querySelector('#photo-stage');
 const cards = [...document.querySelectorAll('.photo-card')];
+const videoCard = cards.find((card) => card.querySelector('video'));
+const demoVideo = videoCard?.querySelector('video');
 const captions = [
+  'In motion',
   'The wardrobe',
   'Character',
   'Weaponry',
   'Saved looks',
   'Weapon display',
-  'Visible bags',
   'Appearance browser',
 ];
 const caption = document.querySelector('#photo-caption');
@@ -24,13 +26,14 @@ let autoTimer = 0;
 let pointerStart = null;
 let suppressClick = false;
 let hovering = false;
+let videoPlaybackFailed = false;
 
 function sizeCards() {
   const maxWidth = Math.min(stage.clientWidth * .86, 620);
   const maxHeight = Math.min(stage.clientHeight * .82, 470);
   cards.forEach((card) => {
-    const image = card.querySelector('img');
-    const ratio = Number(image.getAttribute('width')) / Number(image.getAttribute('height'));
+    const media = card.querySelector('img, video');
+    const ratio = Number(media.getAttribute('width')) / Number(media.getAttribute('height'));
     const style = getComputedStyle(card);
     const frame = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
       + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
@@ -45,15 +48,37 @@ function render() {
     card.dataset.depth = depth < 4 ? String(depth) : 'hidden';
     card.setAttribute('aria-hidden', String(depth !== 0));
     card.tabIndex = depth === 0 ? 0 : -1;
-    if (depth === 0) card.setAttribute('aria-label', 'Show next screenshot. Current image: ' + captions[index]);
+    if (depth === 0) card.setAttribute('aria-label', 'Show next preview. Current: ' + captions[index]);
   });
   caption.textContent = captions[active];
   count.textContent = String(active + 1).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0');
+  syncVideo();
+  updatePlayButton();
+}
+
+function syncVideo() {
+  if (!demoVideo) return;
+  if (cards[active] !== videoCard) {
+    demoVideo.pause();
+    if (demoVideo.readyState) demoVideo.currentTime = 0;
+    return;
+  }
+  if (demoVideo.readyState) demoVideo.currentTime = 0;
+  videoPlaybackFailed = false;
+  if (!playing) {
+    demoVideo.pause();
+    return;
+  }
+  demoVideo.play().catch(() => {
+    videoPlaybackFailed = true;
+    scheduleAuto();
+  });
 }
 
 function updatePlayButton() {
   playButton.setAttribute('aria-pressed', String(playing));
-  playButton.setAttribute('aria-label', playing ? 'Pause slideshow' : 'Play slideshow');
+  const subject = cards[active] === videoCard ? 'video and slideshow' : 'slideshow';
+  playButton.setAttribute('aria-label', (playing ? 'Pause ' : 'Play ') + subject);
   playButton.querySelector('span').textContent = playing ? 'Ⅱ' : '▶';
 }
 
@@ -61,6 +86,14 @@ function scheduleAuto() {
   window.clearTimeout(autoTimer);
   progress.style.animation = 'none';
   if (!playing || moving || (!userOverride && (hovering || gallery.contains(document.activeElement)))) return;
+  if (cards[active] === videoCard && !videoPlaybackFailed) {
+    const remaining = Number.isFinite(demoVideo.duration)
+      ? Math.max(1000, (demoVideo.duration - demoVideo.currentTime) * 1000 + 1000)
+      : 22000;
+    autoTimer = window.setTimeout(() => move(1), remaining);
+    return;
+  }
+  progress.style.width = '0%';
   void progress.offsetWidth;
   progress.style.animation = 'fill-progress ' + slideDelay + 'ms linear forwards';
   progress.style.animationPlayState = 'running';
@@ -131,9 +164,32 @@ document.querySelector('#gallery-prev').addEventListener('click', () => move(-1)
 playButton.addEventListener('click', () => {
   playing = !playing;
   userOverride = playing;
+  if (cards[active] === videoCard) {
+    if (playing) {
+      if (demoVideo.ended && demoVideo.readyState) demoVideo.currentTime = 0;
+      videoPlaybackFailed = false;
+      demoVideo.play().catch(() => {
+        videoPlaybackFailed = true;
+        scheduleAuto();
+      });
+    } else {
+      demoVideo.pause();
+    }
+  }
   updatePlayButton();
   scheduleAuto();
 });
+
+if (demoVideo) {
+  demoVideo.addEventListener('timeupdate', () => {
+    if (cards[active] === videoCard && Number.isFinite(demoVideo.duration)) {
+      progress.style.width = (demoVideo.currentTime / demoVideo.duration * 100) + '%';
+    }
+  });
+  demoVideo.addEventListener('ended', () => {
+    if (cards[active] === videoCard && playing) move(1);
+  });
+}
 
 gallery.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') { event.preventDefault(); move(1); }
@@ -178,5 +234,4 @@ window.addEventListener('resize', sizeCards);
 
 sizeCards();
 render();
-updatePlayButton();
 scheduleAuto();

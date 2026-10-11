@@ -12,33 +12,31 @@ h1,p{margin:0}
 :focus-visible{outline:3px solid var(--gold);outline-offset:4px}
 
 .page{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;background:#10191f}
-.page::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(90deg,rgba(7,11,18,.4),rgba(9,13,21,.24) 43%,rgba(8,13,20,.12)),linear-gradient(0deg,rgba(6,9,14,.58),transparent 24%),url("assets/main-texture.webp") center 48%/cover no-repeat}
-.page::after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 55% 45%,transparent 24%,rgba(4,7,12,.3) 95%)}
-.site-header{min-height:82px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;white-space:nowrap;font:600 20px/1 Cinzel,Georgia,serif;letter-spacing:-.035em;text-shadow:0 2px 4px #000}
-.brand img{width:47px;height:47px;object-fit:contain;filter:drop-shadow(0 2px 5px #000b)}
-.brand strong{color:var(--gold);font-weight:600}
-.header-meta{color:#d5c497;font:600 10px Cinzel,Georgia,serif;letter-spacing:.15em;text-shadow:0 2px 3px #000}
+.page::before{content:"";position:absolute;z-index:-1;inset:-12px;background:url("assets/wardrobe-room.webp") center 48%/cover no-repeat;filter:blur(6px);pointer-events:none}
+.site-header{min-height:118px;padding-top:22px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{position:relative;display:grid;place-items:center;width:70px;height:70px;flex:none;text-decoration:none}
+.brand::after{content:"";position:absolute;inset:0;background:url("assets/logo-rim.png") center/contain no-repeat;filter:drop-shadow(0 2px 5px #000b);pointer-events:none}
+.brand img{width:59.22px;height:59.22px;object-fit:contain;filter:drop-shadow(0 2px 5px #000b)}
+.header-meta{color:#d5c497;text-align:right;font:600 10px/1.5 Cinzel,Georgia,serif;letter-spacing:.15em;text-shadow:0 2px 3px #000}
 .header-meta b{padding:0 10px;color:var(--gold);font-size:8px}
+.header-meta strong{color:#f4dda9;font-weight:800}
 
 .stage{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);align-items:center;gap:clamp(28px,5vw,75px);flex:1;padding-block:25px}
-.copy{position:relative;z-index:1;max-width:585px;padding-bottom:10px}
-.kicker{color:#e7d09d;font:600 11px Cinzel,Georgia,serif;letter-spacing:.22em;text-shadow:0 2px 4px #000}
-.kicker::before{content:"";display:inline-block;width:30px;height:1px;margin-right:12px;vertical-align:4px;background:var(--gold)}
-h1{margin:22px 0 2px;font:700 clamp(62px,6.7vw,112px)/.91 Cinzel,Georgia,serif;letter-spacing:-.07em;color:#f4e6c8;text-shadow:0 4px 0 #30251b,0 7px 5px #000,0 0 20px #0009}
+.copy{position:relative;z-index:1;max-width:585px;padding-bottom:10px;transform:translateY(-16px)}
+h1{margin:0 0 2px;font:700 clamp(62px,6.7vw,112px)/.91 Cinzel,Georgia,serif;letter-spacing:-.07em;color:#f4e6c8;text-shadow:0 4px 0 #30251b,0 7px 5px #000,0 0 20px #0009}
 h1 span{display:inline-block;margin-left:42px;color:#f0d695}
 .lede{max-width:475px;margin:27px 0 0;color:#e0dbcc;font-size:14px;line-height:1.75;text-shadow:0 2px 5px #000}
 .actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap;margin-top:32px}
-.button{display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:49px;padding:13px 21px;text-decoration:none;text-transform:uppercase;font:700 11px Cinzel,Georgia,serif;letter-spacing:.06em;transition:transform .2s,filter .2s}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:49px;padding:13px 21px;text-decoration:none;text-transform:uppercase;font:700 12px Cinzel,Georgia,serif;letter-spacing:.06em;transition:transform .2s,filter .2s}
 .button:hover{transform:translateY(-2px);filter:brightness(1.1)}
 .button-gold{color:#211b12;background:linear-gradient(180deg,#f7dda4,#c5a058 55%,#96703d);box-shadow:0 4px 0 #604c30,0 8px 20px #0008,inset 0 1px 0 #fff4c7}
-.source-link{color:#e8cc91;text-decoration:none;text-transform:uppercase;font:600 10px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 2px 4px #000}
+.source-link{color:#e8cc91;text-decoration:none;text-transform:uppercase;font:700 12px Cinzel,Georgia,serif;letter-spacing:.06em;text-shadow:0 2px 4px #000}
 .source-link:hover,.site-footer a:hover{color:#fff0c9}
 
 .gallery{width:100%;min-width:0;align-self:center}
 .photo-stage{position:relative;width:min(100%,700px);height:clamp(430px,43vw,560px);margin-inline:auto;touch-action:pan-y;perspective:1100px;user-select:none}
 .photo-card{position:absolute;left:50%;top:50%;width:72%;height:auto;margin:0;padding:7px;border:1px solid #f6eedc;border-radius:12px;background:#e8dfcb;box-shadow:0 22px 54px #000b,0 2px 9px #0006,inset 0 1px #fffaf0;transform-origin:50% 50%;transition:transform .55s cubic-bezier(.18,.72,.2,1),opacity .32s ease,visibility .32s;will-change:transform;cursor:pointer;touch-action:pan-y}
-.photo-card img{width:100%;height:auto;border-radius:7px}
+.photo-card img,.photo-card video{display:block;width:100%;height:auto;border-radius:7px}
 .photo-card[data-depth="0"]{z-index:5;opacity:1;visibility:visible;transform:translate(-50%,-50%) rotate(-2deg) scale(1);pointer-events:auto}
 .photo-card[data-depth="1"]{z-index:4;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(29px,-20px) rotate(4deg) scale(.97);pointer-events:none}
 .photo-card[data-depth="2"]{z-index:3;opacity:1;visibility:visible;transform:translate(-50%,-50%) translate(54px,-37px) rotate(7deg) scale(.94);pointer-events:none}
@@ -59,10 +57,10 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
 .gallery-progress span{display:block;width:0;height:100%;background:#edcc84;box-shadow:0 0 7px #e7bf70}
 @keyframes fill-progress{from{width:0}to{width:100%}}
 
-.site-footer{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;min-height:65px;border-top:1px solid rgba(225,195,133,.25);color:#d2c8b3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 1px 3px #000}
-.site-footer nav{grid-column:2;display:flex;gap:22px;justify-self:center}
+.site-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:65px;border-top:1px solid rgba(225,195,133,.25);color:#d2c8b3;font:600 9px Cinzel,Georgia,serif;letter-spacing:.08em;text-shadow:0 1px 3px #000}
+.site-footer nav{grid-column:1;display:flex;gap:22px;justify-self:start;font-size:12px}
 .site-footer a{color:#e0c78f;text-decoration:none}
-.site-footer small{grid-column:3;justify-self:end;max-width:435px;color:#c1c3b8;text-align:right;font:400 10px/1.55 Inter,Arial,sans-serif;letter-spacing:0}
+.site-footer small{grid-column:2;justify-self:end;max-width:435px;color:#c1c3b8;text-align:right;font:400 10px/1.55 Inter,Arial,sans-serif;letter-spacing:0}
 
 @media(max-width:1050px){
   .wrap{width:calc(100% - 48px)}
@@ -71,33 +69,35 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
   .photo-stage{height:clamp(410px,47vw,510px)}
 }
 @media(max-width:760px){
-  .page::before{background:linear-gradient(rgba(7,11,18,.24),rgba(8,12,19,.48)),url("assets/main-texture.webp") 48% center/cover no-repeat}
+  .page::before{background-position:48% center}
   .stage{grid-template-columns:1fr;gap:10px;padding-top:30px}
   .copy{max-width:650px}
   .photo-stage{height:min(92vw,520px)}
   .gallery{margin-top:18px}
   .site-footer{grid-template-columns:1fr;gap:9px;padding-block:17px}
-  .site-footer nav,.site-footer small{grid-column:1;justify-self:center;text-align:center}
+  .site-footer nav{grid-column:1;justify-self:start}
+  .site-footer small{grid-column:1;justify-self:end;text-align:right}
   .site-footer small{max-width:none}
 }
 @media(max-width:520px){
   .wrap{width:calc(100% - 34px)}
-  .site-header{min-height:70px}
-  .brand{font-size:15px;gap:5px}
-  .brand img{width:34px;height:34px}
+  .site-header{min-height:94px;padding-top:16px;gap:12px}
+  .brand{width:52.5px;height:52.5px}
+  .brand img{width:42.84px;height:42.84px}
   .header-meta{font-size:8px;letter-spacing:.05em}
   .header-meta b{padding:0 4px}
   .stage{padding-top:30px}
-  .kicker{font-size:9px}
-  h1{margin-top:19px;font-size:clamp(58px,14.5vw,78px)}
+  .copy{transform:translateY(-10px)}
+  h1{font-size:clamp(58px,14.5vw,78px)}
   h1 span{margin-left:19px}
   .lede{margin-top:21px;font-size:13px}
   .actions{margin-top:23px;gap:19px}
-  .button{min-height:46px;padding:11px 16px;font-size:10px}
+  .button{min-height:46px;padding:11px 16px;font-size:11px}
+  .source-link{font-size:11px}
   .gallery{margin-top:13px}
   .photo-stage{height:94vw;min-height:340px}
   .photo-card{border-radius:9px;padding:5px}
-  .photo-card img{border-radius:5px}
+  .photo-card img,.photo-card video{border-radius:5px}
   .gallery-controls{gap:8px;padding:5px 0}
   .gallery-arrow{min-height:42px;padding:0 11px}
   .gallery-arrow span:not(:first-child){display:none}
@@ -106,7 +106,7 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
   .gallery-arrow span[aria-hidden="true"]{font-size:20px}
   .gallery-label span:first-child{font-size:16px}
   .gallery-play{width:42px;height:42px}
-  .site-footer{font-size:8px}
+  .site-footer nav{font-size:11px}
 }
-@media(max-width:365px){.brand{font-size:13px}.header-meta{font-size:7px}}
+@media(max-width:365px){.header-meta{font-size:7px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.gallery-arrow,.gallery-play,.photo-card{transition:none}.gallery-progress span{animation:none!important}}
