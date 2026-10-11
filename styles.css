@@ -12,14 +12,14 @@ h1,p{margin:0}
 :focus-visible{outline:3px solid var(--gold);outline-offset:4px}
 
 .page{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;background:#10191f}
-.page::before{content:"";position:absolute;z-index:-1;inset:-12px;background:url("assets/wardrobe-room.webp") center 48%/cover no-repeat;filter:blur(6px);pointer-events:none}
+.page::before{content:"";position:absolute;z-index:-1;inset:-12px;background:url("assets/wow-landscape.webp") center 48%/cover no-repeat;filter:blur(6px);pointer-events:none}
 .site-header{min-height:118px;padding-top:22px;display:flex;justify-content:space-between;align-items:center;gap:20px}
 .brand{position:relative;display:grid;place-items:center;width:70px;height:70px;flex:none;text-decoration:none}
 .brand::after{content:"";position:absolute;inset:0;background:url("assets/logo-rim.png") center/contain no-repeat;filter:drop-shadow(0 2px 5px #000b);pointer-events:none}
 .brand img{width:59.22px;height:59.22px;object-fit:contain;filter:drop-shadow(0 2px 5px #000b)}
-.header-meta{color:#d5c497;text-align:right;font:600 10px/1.5 Cinzel,Georgia,serif;letter-spacing:.15em;text-shadow:0 2px 3px #000}
-.header-meta b{padding:0 10px;color:var(--gold);font-size:8px}
-.header-meta strong{color:#f4dda9;font-weight:800}
+.header-meta{color:#fff;text-align:right;font:600 10px/1.5 Cinzel,Georgia,serif;letter-spacing:.15em;text-shadow:0 1px 3px #000,0 2px 8px #000}
+.header-meta b{padding:0 10px;color:#fff;font-size:8px}
+.header-meta strong{color:#fff;font-weight:800}
 
 .stage{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);align-items:center;gap:clamp(28px,5vw,75px);flex:1;padding-block:25px}
 .copy{position:relative;z-index:1;max-width:585px;padding-bottom:10px;transform:translateY(-16px)}
@@ -69,7 +69,7 @@ h1 span{display:inline-block;margin-left:42px;color:#f0d695}
   .photo-stage{height:clamp(410px,47vw,510px)}
 }
 @media(max-width:760px){
-  .page::before{background-position:48% center}
+  .page::before{background-position:12% center}
   .stage{grid-template-columns:1fr;gap:10px;padding-top:30px}
   .copy{max-width:650px}
   .photo-stage{height:min(92vw,520px)}
