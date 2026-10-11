@@ -137,11 +137,9 @@ function move(step) {
   progress.style.animation = 'none';
   const oldCard = cards[active];
   const nextIndex = (active + step + cards.length) % cards.length;
+  const incomingCard = cards[nextIndex];
 
-  if (step < 0) {
-    cards[nextIndex].dataset.depth = '1';
-    void cards[nextIndex].offsetWidth;
-  }
+  if (step < 0) incomingCard.classList.add('is-entering');
   const direction = step > 0 ? -1 : 1;
   const distance = Math.min(stage.clientWidth * .38, 250);
   const startTransform = getComputedStyle(oldCard).transform;
@@ -160,8 +158,25 @@ function move(step) {
 
   active = nextIndex;
   render(oldCard);
-  if (reducedMotion.matches) {
-    cards[active].animate([{ opacity: 0 }, { opacity: 1 }], {
+  if (step < 0) {
+    const arrivalFrames = reducedMotion.matches
+      ? [{ opacity: 0 }, { opacity: 1 }]
+      : [
+        { transform: 'translate(-50%, -50%) translateX(' + (-distance) + 'px) rotate(-12deg) scale(.62)', opacity: 0 },
+        { transform: 'translate(-50%, -50%) rotate(-2deg) scale(1)', opacity: 1 },
+      ];
+    const arrival = incomingCard.animate(arrivalFrames, {
+      duration: reducedMotion.matches ? 180 : 460,
+      easing: 'cubic-bezier(.16,.72,.24,1)',
+      fill: 'both',
+    });
+    const finishArrival = () => {
+      incomingCard.classList.remove('is-entering');
+      arrival.cancel();
+    };
+    arrival.finished.then(finishArrival, finishArrival);
+  } else if (reducedMotion.matches) {
+    incomingCard.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: 180,
       easing: 'ease-out',
     });
